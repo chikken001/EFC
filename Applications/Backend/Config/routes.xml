@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+	<route url="/admin/" module="Accueil" action="index" />
+    <route url="/admin/connexion" module="Connexion" action="index" />
+	<route url="/admin/deconnexion" module="Connexion" action="deconnexion" />
+</routes>
