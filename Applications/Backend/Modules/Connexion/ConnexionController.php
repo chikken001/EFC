@@ -83,7 +83,8 @@ class ConnexionController extends \Library\BackController
 						$this->user->setAuthenticated(true,'Admin');
 						$this->user->setAttribute('id', $user->id());
 						
-						$this->user->setAttribute('nom', $user->prenom()) ;
+						$this->user->setAttribute('prenom', $user->first_name()) ;
+                        $this->user->setAttribute('nom', $user->last_name()) ;
 						
 						$this->app->httpResponse()->redirect('/admin/');
 					}

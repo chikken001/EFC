@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 24 Juin 2016 à 21:52
+-- Généré le :  Sam 25 Juin 2016 à 22:59
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -23,6 +23,192 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `agenda`
+--
+
+CREATE TABLE IF NOT EXISTS `agenda` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `title` varchar(150) NOT NULL,
+  `message` text,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `agendatraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `agendatraduction` (
+  `id` int(11) NOT NULL,
+  `id_agenda` int(11) NOT NULL,
+  `id_language` int(11) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `message` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `article`
+--
+
+CREATE TABLE IF NOT EXISTS `article` (
+  `id` int(11) NOT NULL,
+  `picture` varchar(255) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user` int(11) NOT NULL,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `article`
+--
+
+INSERT INTO `article` (`id`, `picture`, `title`, `message`, `created_at`, `id_user`, `id_language`) VALUES
+(1, 'desert.jpg', 'Titre test', 'Message test', '2016-06-25 20:44:35', 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `articletraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `articletraduction` (
+  `id` int(11) NOT NULL,
+  `id_article` int(11) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `message` text,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `articletraduction`
+--
+
+INSERT INTO `articletraduction` (`id`, `id_article`, `title`, `message`, `id_language`) VALUES
+(1, 1, 'Title test', 'Message test', 3),
+(2, 1, '职称考试', '测试消息', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `article_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `article_tag` (
+  `id` int(11) NOT NULL,
+  `article` int(11) NOT NULL,
+  `tag` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `article_tag`
+--
+
+INSERT INTO `article_tag` (`id`, `article`, `tag`) VALUES
+(1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `category`
+--
+
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categorytraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `categorytraduction` (
+  `id` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `job`
+--
+
+CREATE TABLE IF NOT EXISTS `job` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `jobtraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `jobtraduction` (
+  `id` int(11) NOT NULL,
+  `id_job` int(11) NOT NULL,
+  `id_language` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `language`
+--
+
+CREATE TABLE IF NOT EXISTS `language` (
+  `id` int(11) NOT NULL,
+  `name` varchar(155) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `language`
+--
+
+INSERT INTO `language` (`id`, `name`) VALUES
+(1, 'chinese'),
+(2, 'french'),
+(3, 'english');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `newsletter`
+--
+
+CREATE TABLE IF NOT EXISTS `newsletter` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `picture`
+--
+
+CREATE TABLE IF NOT EXISTS `picture` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `id_article` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `session`
 --
 
@@ -33,12 +219,51 @@ CREATE TABLE IF NOT EXISTS `session` (
   `sess_expire` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Contenu de la table `session`
+-- Structure de la table `tag`
 --
 
-INSERT INTO `session` (`sess_id`, `sess_datas`, `sess_ip`, `sess_expire`) VALUES
-('4hsgoddc7bferl54a5if9sbg83', 'key|s:8:"-)k3SA07";@Formulaire_-)k3SA07_token|s:28:"10578576d8e84213e45.98340229";@Formulaire_-)k3SA07_token_time|i:1466797700;', '127.0.0.1', 1466801380);
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `tag`
+--
+
+INSERT INTO `tag` (`id`, `name`) VALUES
+(1, 'test tag');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `team`
+--
+
+CREATE TABLE IF NOT EXISTS `team` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `first_name_ch` varchar(150) DEFAULT NULL,
+  `last_name_ch` varchar(150) DEFAULT NULL,
+  `id_category` int(11) NOT NULL,
+  `email` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `team_job`
+--
+
+CREATE TABLE IF NOT EXISTS `team_job` (
+  `id` int(11) NOT NULL,
+  `team` int(11) NOT NULL,
+  `job` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -51,21 +276,137 @@ CREATE TABLE IF NOT EXISTS `user` (
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `login` varchar(255) NOT NULL,
   `password` char(128) NOT NULL,
-  `nom` varchar(150) NOT NULL,
-  `prenom` varchar(150) NOT NULL,
-  `date` datetime NOT NULL,
-  `salt` char(10) NOT NULL
+  `last_name` varchar(150) NOT NULL,
+  `first_name` varchar(150) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `salt` char(10) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `user`
+--
+
+INSERT INTO `user` (`id`, `admin`, `login`, `password`, `last_name`, `first_name`, `created_at`, `salt`, `active`) VALUES
+(2, 0, 'chikken', '5873272b15f16e4f05be25d52235936c26d8b8051e7a439fea7b976d352e529e8b12f013351e37fd05a1e250cb678245da58ac53af2a25c7b6f69bdae2caad12', 'aujean', 'thomas', '2016-06-25 20:42:27', '@e6Hù9+aQ5', 1);
 
 --
 -- Index pour les tables exportées
 --
 
 --
+-- Index pour la table `agenda`
+--
+ALTER TABLE `agenda`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `agendatraduction`
+--
+ALTER TABLE `agendatraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_agenda` (`id_agenda`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `article`
+--
+ALTER TABLE `article`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `articletraduction`
+--
+ALTER TABLE `articletraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`),
+  ADD KEY `id_article` (`id_article`);
+
+--
+-- Index pour la table `article_tag`
+--
+ALTER TABLE `article_tag`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `article` (`article`),
+  ADD KEY `tag` (`tag`);
+
+--
+-- Index pour la table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `categorytraduction`
+--
+ALTER TABLE `categorytraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`),
+  ADD KEY `id_category` (`id_category`);
+
+--
+-- Index pour la table `job`
+--
+ALTER TABLE `job`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `jobtraduction`
+--
+ALTER TABLE `jobtraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_job` (`id_job`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `language`
+--
+ALTER TABLE `language`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `newsletter`
+--
+ALTER TABLE `newsletter`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `picture`
+--
+ALTER TABLE `picture`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_article` (`id_article`);
+
+--
 -- Index pour la table `session`
 --
 ALTER TABLE `session`
   ADD PRIMARY KEY (`sess_id`);
+
+--
+-- Index pour la table `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `team`
+--
+ALTER TABLE `team`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_category` (`id_category`);
+
+--
+-- Index pour la table `team_job`
+--
+ALTER TABLE `team_job`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `team` (`team`),
+  ADD KEY `job` (`job`);
 
 --
 -- Index pour la table `user`
@@ -78,10 +419,163 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT pour la table `agenda`
+--
+ALTER TABLE `agenda`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `agendatraduction`
+--
+ALTER TABLE `agendatraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `article`
+--
+ALTER TABLE `article`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `articletraduction`
+--
+ALTER TABLE `articletraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `article_tag`
+--
+ALTER TABLE `article_tag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `categorytraduction`
+--
+ALTER TABLE `categorytraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `job`
+--
+ALTER TABLE `job`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `jobtraduction`
+--
+ALTER TABLE `jobtraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `language`
+--
+ALTER TABLE `language`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `newsletter`
+--
+ALTER TABLE `newsletter`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `picture`
+--
+ALTER TABLE `picture`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `tag`
+--
+ALTER TABLE `tag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `team`
+--
+ALTER TABLE `team`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `team_job`
+--
+ALTER TABLE `team_job`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `agendatraduction`
+--
+ALTER TABLE `agendatraduction`
+  ADD CONSTRAINT `agendatraduction_ibfk_3` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `agendatraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `agendatraduction_ibfk_2` FOREIGN KEY (`id_agenda`) REFERENCES `agenda` (`id`);
+
+--
+-- Contraintes pour la table `article`
+--
+ALTER TABLE `article`
+  ADD CONSTRAINT `article_ibfk_2` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `article_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `articletraduction`
+--
+ALTER TABLE `articletraduction`
+  ADD CONSTRAINT `articletraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `articletraduction_ibfk_2` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`);
+
+--
+-- Contraintes pour la table `article_tag`
+--
+ALTER TABLE `article_tag`
+  ADD CONSTRAINT `article_tag_ibfk_2` FOREIGN KEY (`tag`) REFERENCES `tag` (`id`),
+  ADD CONSTRAINT `article_tag_ibfk_1` FOREIGN KEY (`article`) REFERENCES `article` (`id`);
+
+--
+-- Contraintes pour la table `category`
+--
+ALTER TABLE `category`
+  ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+
+--
+-- Contraintes pour la table `categorytraduction`
+--
+ALTER TABLE `categorytraduction`
+  ADD CONSTRAINT `categorytraduction_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `categorytraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+
+--
+-- Contraintes pour la table `job`
+--
+ALTER TABLE `job`
+  ADD CONSTRAINT `job_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+
+--
+-- Contraintes pour la table `jobtraduction`
+--
+ALTER TABLE `jobtraduction`
+  ADD CONSTRAINT `jobtraduction_ibfk_2` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `jobtraduction_ibfk_1` FOREIGN KEY (`id_job`) REFERENCES `job` (`id`);
+
+--
+-- Contraintes pour la table `picture`
+--
+ALTER TABLE `picture`
+  ADD CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`);
+
+--
+-- Contraintes pour la table `team`
+--
+ALTER TABLE `team`
+  ADD CONSTRAINT `team_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`);
+
+--
+-- Contraintes pour la table `team_job`
+--
+ALTER TABLE `team_job`
+  ADD CONSTRAINT `team_job_ibfk_2` FOREIGN KEY (`job`) REFERENCES `job` (`id`),
+  ADD CONSTRAINT `team_job_ibfk_1` FOREIGN KEY (`team`) REFERENCES `team` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

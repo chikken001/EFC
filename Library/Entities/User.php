@@ -5,46 +5,46 @@ use \Library\Crypt ;
 
 class User extends \Library\Entity
 {
-	protected $nom,
-			  $prenom,
+	protected $last_name,
+			  $first_name,
 			  $password,
 			  $admin,
-			  $date,
+              $active,
+              $created_at,
 			  $salt,
 			  $login;
 	
-	const NOM_INVALIDE = 1;
+	const FIRST_NAME_INVALIDE = 1;
 	const PASSWORD_INVALIDE = 2;
 	const ADMIN_INVALIDE = 3;
-	const DATE_INVALIDE = 4;
-	const PRENOM_INVALIDE = 5;
+	const LAST_NAME_INVALIDE = 5;
 	const LOGIN_INVALIDE = 6;
 	const SALT_INVALIDE = 7;
+    const ACTIVE_INVALIDE = 8;
+    const CREATED_AT_INVALIDE = 9;
 	
-	const LOGIN_INDISPONIBLE = 100;
-	const PASSWORD_VERIFICATION = 101;
-  
+	const PASSWORD_VERIFICATION = 100;
   
   // SETTERS //
   
-	public function setNom($nom)
-	{
-		if (!$this->validator->is_Nom($nom))
-		{
-			$this->erreurs[] = self::NOM_INVALIDE;
-		}
-		
-		$this->nom = $nom;
-	}
-	
-	public function setPrenom($prenom)
+	public function setFirst_name($prenom)
 	{
 		if (!$this->validator->is_Nom($prenom))
 		{
-			$this->erreurs[] = self::PRENOM_INVALIDE;
+			$this->erreurs[] = self::FIRST_NAME_INVALIDE;
 		}
 		
-		$this->prenom = $prenom;
+		$this->first_name = $prenom;
+	}
+	
+	public function setLast_name($nom)
+	{
+		if (!$this->validator->is_Nom($nom))
+		{
+			$this->erreurs[] = self::LAST_NAME_INVALIDE;
+		}
+		
+		$this->last_name = $nom;
 	}
 	
 	public function setPassword($password)
@@ -61,22 +61,42 @@ class User extends \Library\Entity
 	
 	public function setLogin($login)
 	{
-		if(!$this->validator->is_Email($login))
+		if(!$this->validator->is_Login($login))
 		{
 			$this->erreurs[] = self::LOGIN_INVALIDE;
 		}
 		
 		$this->login = $login;	
 	}
+    
+    public function setAdmin($admin)
+	{
+		if(!is_bool($admin) && ($admin != 1 && $admin != 0))
+		{
+			$this->erreurs[] = self::ADMIN_INVALIDE;
+		}
+		
+		$this->admin = $admin;	
+	}
+    
+    public function setActive($active)
+	{
+		if(!is_bool($active) && ($active != 1 && $active != 0))
+		{
+			$this->erreurs[] = self::ADMIN_INVALIDE;
+		}
+		
+		$this->active = $active;	
+	}
 	
-	public function setDate($date)
+	public function setCreated_at($date)
 	{
 		if(!$this->validator->is_Date($date, 'date'))
 		{
-			$this->erreurs[] = self::DATE_INVALIDE;
+			$this->erreurs[] = self::CREATED_AT_INVALIDE;
 		}
 		
-		$this->date = $date ;
+		$this->created_at = $date ;
 	}
 	
 	public function setSalt($salt)
@@ -89,14 +109,14 @@ class User extends \Library\Entity
   
   // GETTERS //
   
-	public function nom()
+	public function last_name()
 	{
-		return $this->nom;
+		return $this->last_name;
 	}
 	
-	public function prenom()
+	public function first_name()
 	{
-		return $this->prenom;
+		return $this->first_name;
 	}
 	
 	public function login()
@@ -113,9 +133,19 @@ class User extends \Library\Entity
 	{
 		return $this->password;
 	}
-	
-	public function date()
+    
+    public function admin()
 	{
-		return $this->date;
+		return $this->admin;
+	}
+    
+    public function active()
+	{
+		return $this->active;
+	}
+	
+	public function created_at()
+	{
+		return $this->created_at;
 	}
 }

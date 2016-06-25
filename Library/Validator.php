@@ -208,7 +208,7 @@ class Validator
 	{
 		if(is_int($min) && is_int($max))
 		{
-			if (!is_string($intitule) || empty($intitule) || !preg_match('/^[\sa-zA-Z0-9ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÿŸ\/\\-_\']{'.$min.','.$max.'}+$/',$intitule))
+			if (!is_string($intitule) || empty($intitule) || !preg_match('/^[\sa-zA-Z0-9ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÿŸ\/\\-_\.\']{'.$min.','.$max.'}+$/',$intitule))
 			{
 				return FALSE ;	
 			}
@@ -257,16 +257,6 @@ class Validator
 		{
 			throw new \InvalidArgumentException('Les valeurs $min et $max doivent etre des entiers');	
 		}
-	}
-	
-	public function is_Spectacle($spectacle)
-	{
-		if (!is_string($spectacle) || empty($spectacle) || !preg_match("/[a-zA-Z-0-9]{6}$/",$spectacle))
-		{
-			return FALSE ;	
-		}
-		
-		return TRUE ;
 	}
 	
 	public function is_Tel($tel)
