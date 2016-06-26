@@ -60,7 +60,7 @@ abstract class Application
 		{
 			$vars = array();
 			
-			// On regarde si des variables sont présentes dans l'PATH.
+			// On regarde si des variables sont prï¿½sentes dans l'PATH.
 			if ($route->hasAttribute('vars'))
 			{
 				$vars = explode(',',$route->getAttribute('vars'));
@@ -82,7 +82,7 @@ abstract class Application
 		
 		try
 		{
-		    // On récupère la route correspondante à l'URL.
+		    // On rï¿½cupï¿½re la route correspondante ï¿½ l'URL.
 			
 			$parse = explode("/", PATH);
 			$subpath = array() ;
@@ -111,7 +111,7 @@ abstract class Application
 		{
 			if ($e->getCode() == \Library\Router::NO_ROUTE)
 			{
-				// Si aucune route ne correspond, c'est que la page demandée n'existe pas.
+				// Si aucune route ne correspond, c'est que la page demandï¿½e n'existe pas.
 				$this->httpResponse->redirectError('404');
 			}
 		}
@@ -121,7 +121,7 @@ abstract class Application
 			// On ajoute les variables de l'URL au tableau $_GET.
 			$_GET = array_merge($_GET, $matchedRoute->vars());
 			
-			// On instancie le contrôleur.
+			// On instancie le contrï¿½leur.
 			$controllerClass = 'Applications\\'.$this->name.'\\Modules\\'.$matchedRoute->module().'\\'.$matchedRoute->module().'Controller';
 			return new $controllerClass($this, $matchedRoute->module(), $matchedRoute->action());
 		}
@@ -154,6 +154,7 @@ abstract class Application
 		session_start();
 
 		$this->user->setKey() ;
+		$this->user->setLanguage() ;
 	}
 	
 	public function run()

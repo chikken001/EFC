@@ -15,7 +15,7 @@ class Picture extends \Library\Entity
   
 	public function setName($name)
 	{
-		if (!$this->validator->is_Intitule($name, 1, 250))
+		if (!$this->validator->is_Intitule($name, 4, 250))
 		{
 			$this->erreurs[] = self::NAME_INVALIDE;
 		}

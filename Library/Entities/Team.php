@@ -10,6 +10,7 @@ class Article extends \Library\Entity
               $last_name,
 			  $last_name_ch,
               $id_category,
+              $picture,
               $email;
 	
 	const FIRST_NAME_INVALIDE = 1;
@@ -18,6 +19,7 @@ class Article extends \Library\Entity
 	const LAST_NAME_CH_INVALIDE = 4;
     const ID_CATEGORY_INVALIDE = 5;
     const EMAIL_INVALIDE = 6;
+    const PICTURE_INVALIDE = 7;
   
   // SETTERS //
     
@@ -80,12 +82,27 @@ class Article extends \Library\Entity
 		
 		$this->last_name_ch = $nom;
 	}
+	
+	public function setPicture($name)
+	{
+		if (!$this->validator->is_Intitule($name, 4, 250))
+		{
+			$this->erreurs[] = self::PICTURE_INVALIDE;
+		}
+	
+		$this->picture = $name;
+	}
   
   // GETTERS //
   
 	public function email()
 	{
 		return $this->email;
+	}
+	
+	public function picture()
+	{
+		return $this->picture;
 	}
     
     public function id_category()

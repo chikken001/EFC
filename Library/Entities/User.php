@@ -7,6 +7,8 @@ class User extends \Library\Entity
 {
 	protected $last_name,
 			  $first_name,
+			  $last_name_ch,
+			  $first_name_ch,
 			  $password,
 			  $admin,
               $active,
@@ -22,6 +24,8 @@ class User extends \Library\Entity
 	const SALT_INVALIDE = 7;
     const ACTIVE_INVALIDE = 8;
     const CREATED_AT_INVALIDE = 9;
+    const FIRST_NAME_CH_INVALIDE = 10;
+    const LAST_NAME_CH_INVALIDE = 11;
 	
 	const PASSWORD_VERIFICATION = 100;
   
@@ -45,6 +49,26 @@ class User extends \Library\Entity
 		}
 		
 		$this->last_name = $nom;
+	}
+	
+	public function setFirst_name_ch($prenom)
+	{
+		if (!empty($prenom) && !$this->validator->is_Nom($prenom))
+		{
+			$this->erreurs[] = self::FIRST_NAME_CH_INVALIDE;
+		}
+	
+		$this->first_name_ch = $prenom;
+	}
+	
+	public function setLast_name_ch($nom)
+	{
+		if (!empty($nom) && !$this->validator->is_Nom($nom))
+		{
+			$this->erreurs[] = self::LAST_NAME_CH_INVALIDE;
+		}
+	
+		$this->last_name_ch = $nom;
 	}
 	
 	public function setPassword($password)
@@ -117,6 +141,16 @@ class User extends \Library\Entity
 	public function first_name()
 	{
 		return $this->first_name;
+	}
+	
+	public function last_name_ch()
+	{
+		return $this->last_name_ch;
+	}
+	
+	public function first_name_ch()
+	{
+		return $this->first_name_ch;
 	}
 	
 	public function login()

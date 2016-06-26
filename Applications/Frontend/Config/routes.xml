@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes>
 	<route url="/" module="Accueil" action="index" />
+	<route url="/test/traduction" module="Test" action="trad" />
+	<route url="/lang/([0-9]+)" module="Accueil" action="language" vars="id_language" />
 </routes>
