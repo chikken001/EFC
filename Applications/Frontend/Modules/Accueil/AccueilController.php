@@ -1,6 +1,9 @@
 <?php
 namespace Applications\Frontend\Modules\Accueil;
 
+use \Library\Validator ;
+use \Library\Entities\Newsletter;
+
 class AccueilController extends \Library\BackController
 {
 	public function executeIndex(\Library\HTTPRequest $request)
@@ -27,6 +30,37 @@ class AccueilController extends \Library\BackController
 		}
 		
 		$this->app->httpResponse()->redirect("/");
+	}
+	
+	public function executeNewsletter(\Library\HTTPRequest $request)
+	{
+		$validator = new Validator() ;
+		
+		if ($request->postExists('newsletter'))
+		{
+			$email = $request->postData('newsletter') ;
+			
+			if($validator->is_Email($email))
+			{
+				$exist = $this->em('Newsletter')->DEF->getUnique(array('email' => $email)) ;
+				
+				if(!$exist)
+				{
+					$newsletter = new Newsletter() ;
+					$newsletter->setEmail($email) ;
+					
+					$this->em('Newsletter')->DEF->save($newsletter) ;
+				}
+				else
+				{
+					$this->user->setFlash('Vous êtes déjà inscrit à la newletter') ;
+				}
+			}
+			else 
+			{
+				$this->user->setFlash('Email invalide') ;
+			}
+		}
 	}
 	
 	public function executeRedirect500(\Library\HTTPRequest $request)
