@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 26 Juin 2016 à 18:42
+-- Généré le :  Mar 28 Juin 2016 à 22:44
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -265,15 +265,29 @@ CREATE TABLE IF NOT EXISTS `session` (
 
 CREATE TABLE IF NOT EXISTS `tag` (
   `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
+  `name` varchar(150) NOT NULL,
+  `id_language` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `tag`
 --
 
-INSERT INTO `tag` (`id`, `name`) VALUES
-(1, 'test tag');
+INSERT INTO `tag` (`id`, `name`, `id_language`) VALUES
+(1, 'test tag', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tagtraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `tagtraduction` (
+  `id` int(11) NOT NULL,
+  `id_tag` int(11) NOT NULL,
+  `id_language` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -448,7 +462,16 @@ ALTER TABLE `session`
 -- Index pour la table `tag`
 --
 ALTER TABLE `tag`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`);
+
+--
+-- Index pour la table `tagtraduction`
+--
+ALTER TABLE `tagtraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`),
+  ADD KEY `id_tag` (`id_tag`);
 
 --
 -- Index pour la table `team`
@@ -541,6 +564,11 @@ ALTER TABLE `picture`
 ALTER TABLE `tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT pour la table `tagtraduction`
+--
+ALTER TABLE `tagtraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT pour la table `team`
 --
 ALTER TABLE `team`
@@ -619,6 +647,19 @@ ALTER TABLE `jobtraduction`
 --
 ALTER TABLE `picture`
   ADD CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`);
+
+--
+-- Contraintes pour la table `tag`
+--
+ALTER TABLE `tag`
+  ADD CONSTRAINT `tag_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+
+--
+-- Contraintes pour la table `tagtraduction`
+--
+ALTER TABLE `tagtraduction`
+  ADD CONSTRAINT `tagtraduction_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tag` (`id`),
+  ADD CONSTRAINT `tagtraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
 
 --
 -- Contraintes pour la table `team`

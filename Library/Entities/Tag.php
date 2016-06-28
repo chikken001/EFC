@@ -5,9 +5,11 @@ use \Library\Crypt ;
 
 class Tag extends \Library\Entity
 {
-	protected $name;
+	protected $name,
+              $id_language;
 	
 	const NAME_INVALIDE = 1;
+    const ID_LANGUAGE_INVALIDE = 2;
   
   // SETTERS //
 	
@@ -20,11 +22,26 @@ class Tag extends \Library\Entity
 		
 		$this->name = $name;
 	}
+    
+    public function setId_language($id)
+	{
+		if (!$this->validator->is_Id($id))
+		{
+			$this->erreurs[] = self::ID_LANGUAGE_INVALIDE;
+		}
+		
+		$this->id_language = $id;
+	}
   
   // GETTERS //
   
 	public function name()
 	{
 		return $this->name;
+	}
+    
+    public function id_language()
+	{
+		return $this->id_language;
 	}
 }

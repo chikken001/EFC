@@ -29,4 +29,23 @@
     <p></p>
     <a href="vers_article"> <input type="button" value="Bouton">?</a>
   </div>
+<?php 
+  
+	if(count($articles) > 0)
+	{
+		foreach($articles as $article)
+		{
+	  		echo '
+		    	<img src="/Web/upload/'.$article['picture'].'"/>
+		    	<h3>'.$article['title'].'</h3>
+				<p>'.$article['message'].'</p>
+				<p>'.$article['created_at'].' '.$article['author'].'</p>
+		    ';
+	 	 }
+  	}
+	else
+	{
+		echo "<p>Il n'y a aucun article à afficher</p>" ;
+	}
+?>
 </section>
