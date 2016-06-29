@@ -6,31 +6,47 @@
 <section id="article-container">
 
     <aside>
-    <!--date-->
+    <?php 
+    echo '<img src="'.$article['picture'].'" alt="" />' ;
+    echo $article['created_at'] ;
+    echo $article['author'] ;
+    ?>
       <ul>
       </ul>
     </aside>
 
     <article id="article-top">
-      <!--call php-->
-      <h2></h2>
-      <p class="p-article"></p>
+      <h2><?php echo $article['title'] ; ?></h2>
+      <p class="p-article"><?php echo $article['message'] ; ?></p>
     </article>
-
-    <figure id="">
-      <figcaption>
-        <span></span>
-      </figcaption>
-    </figure>
+	
+	<?php 
+	foreach($pictures as $picture)
+	{
+		echo'
+    	<figure>
+    		<img src="'.$picture.'" alt="" />
+        	<figcaption>Légende</figcaption>
+    	</figure>';
+	}
+	
+	?>
 
     <article id="article-bottom">
-      <!--call php-->
       <h2></h2>
       <p class="p-article"></p>
     </article>
 
     <aside>
-    <!--articles liés-->
+    <?php 
+	    foreach($similars as $similar)
+		{
+			echo'
+	    	<h3>'.$similar['title'].'</h3>	
+	    	<p>'.$similar['message'].'</p>	
+	    	';
+		}
+	?>
     </aside>
 
 </section>

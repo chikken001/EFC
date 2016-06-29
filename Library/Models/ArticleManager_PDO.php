@@ -131,7 +131,6 @@ class ArticleManager_PDO extends ArticleManager
 		}
 	
 		$requete = $this->dao->prepare($query) ;
-						//die(var_dump($query)) ;
 	
 		foreach ($bind as $nom => $valeur)
 		{
@@ -144,6 +143,111 @@ class ArticleManager_PDO extends ArticleManager
 	
 		$listeArticles = $requete->fetchAll();
 	
+		$requete->closeCursor();
+	
+		return $listeArticles ;
+	}
+	
+	public function getPictures($id_article)
+	{
+		$query = 'SELECT * from picture WHERE id_article = :id_article' ;
+		
+		$requete = $this->dao->prepare($query) ;
+		$requete->bindValue('id_article', $id_article, \PDO::PARAM_INT);
+		
+		$requete->execute();
+		$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Picture');
+		
+		$listeImages = $requete->fetchAll();
+		
+		$requete->closeCursor();
+		
+		return $listeImages ;
+	}
+	
+	public function getSimilars($id_article, $id_lang, $nb)
+	{
+		$nb = intval($nb) ;
+		$listeArticles = array() ;
+		
+		$query = 'SELECT a.* FROM article a
+				  join article_tag at on at.article = a.id
+				  join tag t on t.id = at.tag
+				  left join articletraduction atr on a.id = atr.id_article
+				  WHERE a.id != :id_article AND (a.id_language = :id_lang or atr.id_language = :id_lang)
+				  AND t.id IN 
+				  (
+						SELECT t.id from tag t
+					    join article_tag at on at.tag = t.id
+						join article a on a.id = at.article
+					    WHERE a.id = :id_article
+				  )
+				  group by a.id, a.picture, a.title, a.message, a.created_at, a.id_user, a.id_language
+				  LIMIT 1
+				  OFFSET :offset' ;
+		
+		$count_query = 'SELECT COUNT(a.id) FROM article a
+				  join article_tag at on at.article = a.id
+				  join tag t on t.id = at.tag
+				  left join articletraduction atr on a.id = atr.id_article
+				  WHERE a.id != :id_article AND (a.id_language = :id_lang or atr.id_language = :id_lang)
+				  AND t.id IN
+				  (
+						SELECT t.id from tag t
+					    join article_tag at on at.tag = t.id
+						join article a on a.id = at.article
+					    WHERE a.id = :id_article
+				  )' ;
+		
+		$requeteCount = $this->dao->prepare($count_query) ;
+		$requeteCount->bindValue('id_article', $id_article, \PDO::PARAM_INT);
+		$requeteCount->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+		
+		$requeteCount->execute();
+		
+		$nb_resultat = $requeteCount->fetchColumn() ;
+		$requeteCount->closeCursor();
+		
+		$result = array() ;
+		$i = 1 ;
+		$nb_res = $nb_resultat ;
+		
+		while($nb_res != 0)
+		{
+			$result[$i] = 1 ;
+			$nb_res -- ;
+			$i ++ ;
+		}
+		
+		$requete = $this->dao->prepare($query) ;
+		
+		$i = 0 ;
+		
+		while(count($result) > 0 && $i < $nb)
+		{
+			$rand = rand(1 , $nb_resultat) ;
+			
+			while(!isset($result[$rand]))
+			{
+				$rand = rand(1 , $nb_resultat) ;
+			}
+			
+			$offset = $rand - 1 ;
+			unset($result[$rand]) ;
+			
+			$requete->bindValue('id_article', $id_article, \PDO::PARAM_INT);
+			$requete->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+			$requete->bindValue('offset', $offset, \PDO::PARAM_INT);
+			
+			$requete->execute();
+			$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Article');
+			
+			$article = $requete->fetch();
+			
+			$listeArticles[] = $article ;
+			$i ++ ;
+		}
+		
 		$requete->closeCursor();
 	
 		return $listeArticles ;
