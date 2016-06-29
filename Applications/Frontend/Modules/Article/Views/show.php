@@ -4,7 +4,10 @@
 </section>
 
 <section id="article-container">
-
+<?php 
+if(empty(!$article))
+{
+?>
     <aside>
     <?php 
     echo '<img src="'.$article['picture'].'" alt="" />' ;
@@ -48,6 +51,13 @@
 		}
 	?>
     </aside>
+<?php 
+}
+else
+{
+	echo $empty ;
+}
+?>
 
 </section>
 
