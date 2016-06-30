@@ -41,7 +41,7 @@
   	}
 	else
 	{
-		echo "<p>Il n'y a aucun article à afficher</p>" ;
+		echo "<p>$empty</p>" ;
 	}
 ?>
 </section>

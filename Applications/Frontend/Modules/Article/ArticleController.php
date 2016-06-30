@@ -102,6 +102,7 @@ class ArticleController extends \Library\BackController
 		$search_tag = '' ;
 		$search_date = '' ;
 		$search = '' ;
+		$empty = '' ;
 		
 		if($request->getExists('search') && !empty($request->getData('search')))
 		{
@@ -174,10 +175,17 @@ class ArticleController extends \Library\BackController
 				$articles[$id_article]['message'] = substr($traduction->message(), 0, 75) ;
 			}
 		}
+		
+		if(count($articles > 0))
+		{
+			$no_article = array(1 => '有没有文章可显示', 2 => "Il n'y a aucun article à afficher", 3 => 'There are no articles to display');
+			isset($no_article[$id_lang]) ? $empty = $no_article[$id_lang] : $empty = $no_article[3] ;
+		}
 
 		$this->page->addVar('page', $page);
 		$this->page->addVar('max_page', $max_page);
 		$this->page->addVar('articles', $articles);
+		$this->page->addVar('empty', $empty);
 	}
 	
 	protected function getIdLanguage()

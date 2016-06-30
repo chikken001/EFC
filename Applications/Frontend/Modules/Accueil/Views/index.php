@@ -35,12 +35,19 @@
 			</section>
 
 			<section id="article-sample">
-				<!--php call-->
-				<div class="item-article">
-					<img src=""/>
-					<h3></h3>
-					<p></p>
-				</div>
+			<?php 
+				foreach($articles as $id_article => $article)
+				{
+			  		echo '
+		    			<div class="item-article">
+					    	<img src="'.$article['picture'].'"/>
+					    	<h3>'.$article['title'].'</h3>
+							<p>'.$article['message'].'</p>
+			      			<a href="/article/'.$id_article.'">En savoir plus</a>
+		    			</div>
+				    ';
+			 	 }
+			 ?>
 			</section>
 
 	</div>

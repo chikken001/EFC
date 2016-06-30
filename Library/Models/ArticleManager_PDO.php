@@ -186,7 +186,7 @@ class ArticleManager_PDO extends ArticleManager
 				  LIMIT 1
 				  OFFSET :offset' ;
 		
-		$count_query = 'SELECT COUNT(a.id) FROM article a
+		$count_query = 'SELECT a.id FROM article a
 				  join article_tag at on at.article = a.id
 				  join tag t on t.id = at.tag
 				  left join articletraduction atr on a.id = atr.id_article
@@ -197,17 +197,18 @@ class ArticleManager_PDO extends ArticleManager
 					    join article_tag at on at.tag = t.id
 						join article a on a.id = at.article
 					    WHERE a.id = :id_article
-				  )' ;
+				  )
+				  group by a.id' ;
 		
 		$requeteCount = $this->dao->prepare($count_query) ;
 		$requeteCount->bindValue('id_article', $id_article, \PDO::PARAM_INT);
 		$requeteCount->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
-		
+
 		$requeteCount->execute();
 		
-		$nb_resultat = $requeteCount->fetchColumn() ;
+		$nb_resultat = $requeteCount->rowCount();
 		$requeteCount->closeCursor();
-		
+
 		$result = array() ;
 		$i = 1 ;
 		$nb_res = $nb_resultat ;
@@ -222,7 +223,7 @@ class ArticleManager_PDO extends ArticleManager
 		$requete = $this->dao->prepare($query) ;
 		
 		$i = 0 ;
-		
+
 		while(count($result) > 0 && $i < $nb)
 		{
 			$rand = rand(1 , $nb_resultat) ;
@@ -233,8 +234,8 @@ class ArticleManager_PDO extends ArticleManager
 			}
 			
 			$offset = $rand - 1 ;
+
 			unset($result[$rand]) ;
-			
 			$requete->bindValue('id_article', $id_article, \PDO::PARAM_INT);
 			$requete->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
 			$requete->bindValue('offset', $offset, \PDO::PARAM_INT);
@@ -247,9 +248,76 @@ class ArticleManager_PDO extends ArticleManager
 			$listeArticles[] = $article ;
 			$i ++ ;
 		}
-		
+
 		$requete->closeCursor();
 	
+		return $listeArticles ;
+	}
+	
+	public function getRandom($id_lang, $nb)
+	{
+		$nb = intval($nb) ;
+		$listeArticles = array() ;
+		
+		$count_query = 'SELECT a.id FROM article a
+									   left join articletraduction at on a.id = at.id_article
+									   where a.id_language = :id_lang or at.id_language = :id_lang
+									   group by a.id' ;
+		
+		$requeteCount = $this->dao->prepare($count_query) ;
+		$requeteCount->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+		
+		$requeteCount->execute();
+		
+		$nb_resultat = $requeteCount->rowCount();
+		$requeteCount->closeCursor();
+		
+		$result = array() ;
+		$i = 1 ;
+		$nb_res = $nb_resultat ;
+		
+		while($nb_res != 0)
+		{
+			$result[$i] = 1 ;
+			$nb_res -- ;
+			$i ++ ;
+		}
+		
+		$requete = $this->dao->prepare('SELECT a.* FROM article a
+									   left join articletraduction at on a.id = at.id_article
+									   where a.id_language = :id_lang or at.id_language = :id_lang
+									   group by a.id, a.picture, a.title, a.message, a.created_at, a.id_user, a.id_language
+									   limit 1
+									   offset :offset') ;
+		
+		$i = 0 ;
+		
+		while(count($result) > 0 && $i < $nb)
+		{
+			$rand = rand(1 , $nb_resultat) ;
+				
+			while(!isset($result[$rand]))
+			{
+				$rand = rand(1 , $nb_resultat) ;
+			}
+				
+			$offset = $rand - 1 ;
+		
+			unset($result[$rand]) ;
+			$requete->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+			$requete->bindValue('offset', $offset, \PDO::PARAM_INT);
+				
+			$requete->execute();
+			$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Article');
+				
+			$article = $requete->fetch();
+				
+			$listeArticles[] = $article ;
+			$i ++ ;
+		}
+		
+		$requete->closeCursor();
+		
 		return $listeArticles ;
 	}
 }

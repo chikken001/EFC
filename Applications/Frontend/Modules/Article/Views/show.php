@@ -5,7 +5,7 @@
 
 <section id="article-container">
 <?php 
-if(empty(!$article))
+if(!empty($article))
 {
 ?>
     <aside>
