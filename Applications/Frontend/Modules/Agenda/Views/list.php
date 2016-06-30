@@ -4,7 +4,19 @@
 </section>
 
 <section id="event-list">
-  <!--call php-->
+	<?php 
+		foreach($agendas as $id_agenda => $agenda)
+		{
+	  		echo '
+    			<div class="item-agenda">
+    				<span class="date">'.$agenda['date'].'</span>
+			    	<h3>'.$agenda['title'].'</h3>
+					<p>'.$agenda['message'].'</p>
+	      			<a href="/agenda/'.$id_agenda.'">En savoir plus</a>
+    			</div>
+		    ';
+	 	 }
+	 ?>
   <ul class="event-month-item">
     <!--call php-->
     <li class="event-day-item"><!--call php-->

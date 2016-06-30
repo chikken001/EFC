@@ -36,8 +36,7 @@ if(!empty($article))
 	?>
 
     <article id="article-bottom">
-      <h2></h2>
-      <p class="p-article"></p>
+      <p class="p-article"><?php echo $resume ; ?></p>
     </article>
 
     <aside>

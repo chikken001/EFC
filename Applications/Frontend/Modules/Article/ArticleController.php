@@ -15,6 +15,7 @@ class ArticleController extends \Library\BackController
         	$pictures = array() ;
         	$similars = array() ;
         	$empty = '' ;
+        	$resume = '' ;
         	
         	$id_lang = $this->getIdLanguage() ;
         	$id_language = $Article->id_language() ;
@@ -76,12 +77,15 @@ class ArticleController extends \Library\BackController
         				$similars[$id_similar]['message'] = substr($traduction->message(), 0, 75) ;
         			}
         		}
+        		
+        		$resume = $this->em('Article')->getResume($id_article, $id_lang) ;
         	}
         	
         	$this->page->addVar('article', $article);
         	$this->page->addVar('pictures', $pictures);
         	$this->page->addVar('similars', $similars);
         	$this->page->addVar('empty', $empty);
+        	$this->page->addVar('resume', $resume);
         }
         else
         {

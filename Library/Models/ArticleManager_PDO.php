@@ -320,4 +320,41 @@ class ArticleManager_PDO extends ArticleManager
 		
 		return $listeArticles ;
 	}
+	
+	public function getResume($id_article, $id_lang)
+	{
+		$id_lang = intval($id_lang);
+		
+		$requete = $this->dao->prepare('SELECT r.* FROM resume r
+									   left join resumetraduction rt on r.id = rt.id_resume
+									   where (r.id_language = :id_lang or rt.id_language = :id_lang)
+									   and r.id_article = :id_article
+									   group by r.id, r.message, r.id_article, r.id_language') ;
+		
+		$requete->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+		$requete->bindValue('id_article', $id_article, \PDO::PARAM_INT);
+		
+		$requete->execute();
+		$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Resume');
+		
+		$resume = $requete->fetch();
+		$requete->closeCursor();
+		
+		if($resume)
+		{
+			if($id_lang == $resume->id_language())
+			{
+				return $resume->message() ;
+			}
+			else 
+			{
+				$requete = $this->dao->query("Select message from resumetraduction where id_resume = ".$resume->id()." and id_language = $id_lang");
+				return $requete->fetchColumn() ;
+			}
+		}
+		else 
+		{
+			return '' ;
+		}
+	}
 }
