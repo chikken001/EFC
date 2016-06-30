@@ -19,9 +19,29 @@
 </div>
 
 <section id="members-trombinoscope">
-<!--call-->
-  <div class="rolebox"></div>
-  <div class="trombibox"></div>
+	<?php 
+		foreach($team as $category)
+		{
+			echo '<div class="category">
+  					<h1>'.$category['name'].'</h1>' ;
+			
+			foreach($category['members'] as $member)
+			{
+				echo '<div class="member">
+    					<img src="'.$member['picture'].'" alt="" />
+    					<h2>'.$member['prenom'].' '.$member['nom'].'</h2>' ;
+      				  
+				foreach($member['jobs'] as $job)
+				{
+					echo '<p>'.$job.'</p>' ;
+				}
+				
+				echo '</div>' ;	
+			}
+			
+			echo '</div>' ;
+		}
+	?>
 </section>
 
 <section id="guest-trombinoscope">
