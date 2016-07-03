@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 28 Juin 2016 à 22:44
+-- Généré le :  Dim 03 Juillet 2016 à 13:12
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -33,7 +33,15 @@ CREATE TABLE IF NOT EXISTS `agenda` (
   `title` varchar(150) NOT NULL,
   `message` text,
   `id_language` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `agenda`
+--
+
+INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_language`) VALUES
+(1, '2016-06-30', '2016-06-30 21:10:28', 'date de rendu du projet', 'Ouais on a fini ^^', 2),
+(2, '2016-07-09', '2016-06-30 21:16:06', 'sorti ciné', 'go voir warcraft', 2);
 
 -- --------------------------------------------------------
 
@@ -47,7 +55,15 @@ CREATE TABLE IF NOT EXISTS `agendatraduction` (
   `id_language` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
   `message` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `agendatraduction`
+--
+
+INSERT INTO `agendatraduction` (`id`, `id_agenda`, `id_language`, `title`, `message`) VALUES
+(1, 1, 1, '\r\n呈现项目的日期', '是啊，我们结束 ^^'),
+(2, 1, 3, 'rendering date of project', 'Yeah we ended ^^');
 
 -- --------------------------------------------------------
 
@@ -63,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
   `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `article`
@@ -71,7 +87,9 @@ CREATE TABLE IF NOT EXISTS `article` (
 
 INSERT INTO `article` (`id`, `picture`, `title`, `message`, `created_at`, `id_user`, `id_language`) VALUES
 (1, 'desert.jpg', 'Titre test', 'Message test', '2016-06-25 20:44:35', 2, 2),
-(2, '', 'test 2', 'article sans traduction', '2016-06-26 17:12:17', 2, 2);
+(2, '', 'article 2', 'article sans traduction\r\nsans tag', '2016-06-26 17:12:17', 2, 2),
+(3, '', 'autre article', 'article avec 2 tag\r\nsans traduction', '2016-06-29 21:59:19', 2, 2),
+(4, '', 'article 4', 'article avec le même tag que le 1 et le 2', '2016-06-29 23:14:32', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -105,14 +123,17 @@ CREATE TABLE IF NOT EXISTS `article_tag` (
   `id` int(11) NOT NULL,
   `article` int(11) NOT NULL,
   `tag` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `article_tag`
 --
 
 INSERT INTO `article_tag` (`id`, `article`, `tag`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 3, 1),
+(3, 3, 2),
+(4, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -242,7 +263,54 @@ CREATE TABLE IF NOT EXISTS `picture` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `id_article` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `picture`
+--
+
+INSERT INTO `picture` (`id`, `name`, `id_article`) VALUES
+(1, 'test', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `resume`
+--
+
+CREATE TABLE IF NOT EXISTS `resume` (
+  `id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `id_language` int(11) NOT NULL,
+  `id_article` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `resume`
+--
+
+INSERT INTO `resume` (`id`, `message`, `id_language`, `id_article`) VALUES
+(1, 'résumé de l''article 1', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `resumetraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `resumetraduction` (
+  `id` int(11) NOT NULL,
+  `id_resume` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `id_language` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `resumetraduction`
+--
+
+INSERT INTO `resumetraduction` (`id`, `id_resume`, `message`, `id_language`) VALUES
+(1, 1, '在第1条概要', 1);
 
 -- --------------------------------------------------------
 
@@ -267,14 +335,15 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `tag`
 --
 
 INSERT INTO `tag` (`id`, `name`, `id_language`) VALUES
-(1, 'test tag', 2);
+(1, 'test tag', 2),
+(2, 'tag 2', 2);
 
 -- --------------------------------------------------------
 
@@ -369,7 +438,8 @@ INSERT INTO `user` (`id`, `admin`, `login`, `password`, `last_name`, `first_name
 -- Index pour la table `agenda`
 --
 ALTER TABLE `agenda`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`);
 
 --
 -- Index pour la table `agendatraduction`
@@ -453,6 +523,22 @@ ALTER TABLE `picture`
   ADD KEY `id_article` (`id_article`);
 
 --
+-- Index pour la table `resume`
+--
+ALTER TABLE `resume`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`),
+  ADD KEY `id_article` (`id_article`);
+
+--
+-- Index pour la table `resumetraduction`
+--
+ALTER TABLE `resumetraduction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_language` (`id_language`),
+  ADD KEY `id_resume` (`id_resume`);
+
+--
 -- Index pour la table `session`
 --
 ALTER TABLE `session`
@@ -502,17 +588,17 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `agendatraduction`
 --
 ALTER TABLE `agendatraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `articletraduction`
 --
@@ -522,7 +608,7 @@ ALTER TABLE `articletraduction`
 -- AUTO_INCREMENT pour la table `article_tag`
 --
 ALTER TABLE `article_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `category`
 --
@@ -557,12 +643,22 @@ ALTER TABLE `newsletter`
 -- AUTO_INCREMENT pour la table `picture`
 --
 ALTER TABLE `picture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `resume`
+--
+ALTER TABLE `resume`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `resumetraduction`
+--
+ALTER TABLE `resumetraduction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `tagtraduction`
 --
@@ -586,6 +682,12 @@ ALTER TABLE `user`
 --
 -- Contraintes pour les tables exportées
 --
+
+--
+-- Contraintes pour la table `agenda`
+--
+ALTER TABLE `agenda`
+  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
 
 --
 -- Contraintes pour la table `agendatraduction`
@@ -649,6 +751,20 @@ ALTER TABLE `picture`
   ADD CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`);
 
 --
+-- Contraintes pour la table `resume`
+--
+ALTER TABLE `resume`
+  ADD CONSTRAINT `resume_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `resume_ibfk_2` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`);
+
+--
+-- Contraintes pour la table `resumetraduction`
+--
+ALTER TABLE `resumetraduction`
+  ADD CONSTRAINT `resumetraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `resumetraduction_ibfk_2` FOREIGN KEY (`id_resume`) REFERENCES `resume` (`id`);
+
+--
 -- Contraintes pour la table `tag`
 --
 ALTER TABLE `tag`
@@ -658,8 +774,8 @@ ALTER TABLE `tag`
 -- Contraintes pour la table `tagtraduction`
 --
 ALTER TABLE `tagtraduction`
-  ADD CONSTRAINT `tagtraduction_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tag` (`id`),
-  ADD CONSTRAINT `tagtraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+  ADD CONSTRAINT `tagtraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `tagtraduction_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tag` (`id`);
 
 --
 -- Contraintes pour la table `team`
