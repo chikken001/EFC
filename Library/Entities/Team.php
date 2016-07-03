@@ -3,7 +3,7 @@ namespace Library\Entities;
 
 use \Library\Crypt ;
 
-class Article extends \Library\Entity
+class Team extends \Library\Entity
 {
 	protected $first_name,
 			  $first_name_ch,

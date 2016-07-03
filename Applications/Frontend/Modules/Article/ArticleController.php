@@ -1,21 +1,103 @@
 <?php
 namespace Applications\Frontend\Modules\Article;
+use Library\Entities\Article ;
 
 class ArticleController extends \Library\BackController
 {
 	public function executeShow(\Library\HTTPRequest $request)
 	{
-        $this->page->addVar('title', 'Article');
+		$id_article = $request->getData('id_article') ;
+		$Article = $this->em('Article')->DEF->getUnique($id_article) ;
+		
+        if($Article)
+        {
+        	$article = array() ;
+        	$pictures = array() ;
+        	$similars = array() ;
+        	$empty = '' ;
+        	$resume = '' ;
+        	
+        	$id_lang = $this->getIdLanguage() ;
+        	$id_language = $Article->id_language() ;
+        	
+        	if($id_lang == $id_language)
+        	{
+        		$article['title'] = $Article->title() ;
+        		$article['message'] = $Article->message() ;
+        	}
+        	else 
+        	{	
+        		$traduction = $this->em('ArticleTraduction')->DEF->getUnique(array('id_article' => $id_article, 'id_language' => $id_lang)) ;
+        		
+        		if($traduction)
+        		{
+        			$article['title'] = $traduction->title() ;
+        			$article['message'] = $traduction->message() ;
+        		}
+        		else 
+        		{
+        			$no_traduction = array(1 => '有一个在你的语言中没有翻译这篇文章', 2 => "Il n'y a aucune traduction dans votre langue pour cet article", 3 => 'There is no translation in your language for this article');
+        			isset($no_traduction[$id_lang]) ? $empty = $no_traduction[$id_lang] : $empty = $no_traduction[3] ;
+        		}
+        	}
+        	
+        	if(!empty($article))
+        	{
+        		$article['created_at'] = $Article->created_at() ;
+        		$article['author'] = $this->getFormatAuthor($id_lang, $Article->id_user()) ;
+        		$article['picture'] = $this->getPicturePath($Article) ;
+        		
+        		$Pictures = $this->em('Article')->getPictures($id_article) ;
+        		
+        		foreach($Pictures as $picture)
+        		{
+        			$pictures[] = $this->getPicturePath($picture) ;
+        		}
+        		
+        		$Similars = $this->em('Article')->getSimilars($id_article, $id_lang, 1) ;
+        		
+        		foreach($Similars as $similar)
+        		{
+        			$id_language = $similar->id_language() ;
+        			$id_similar = $similar->id() ;
+        			
+        			$similars[$id_similar]['created_at'] = $similar->created_at() ;
+        			$similars[$id_similar]['picture'] = $this->getPicturePath($similar) ;
+        			$similars[$id_similar]['author'] = $this->getFormatAuthor($id_lang, $similar->id_user()) ;
+        			
+        			if($id_lang == $id_language)
+        			{
+        				$similars[$id_similar]['title'] = $similar->title() ;
+        				$similars[$id_similar]['message'] = substr($similar->message(), 0, 75) ;
+        			}
+        			else
+        			{
+        				$traduction = $this->em('ArticleTraduction')->DEF->getUnique(array('id_article' => $id_similar, 'id_language' => $id_lang)) ;
+        				$similars[$id_similar]['title'] = $traduction->title() ;
+        				$similars[$id_similar]['message'] = substr($traduction->message(), 0, 75) ;
+        			}
+        		}
+        		
+        		$resume = $this->em('Article')->getResume($id_article, $id_lang) ;
+        	}
+        	
+        	$this->page->addVar('article', $article);
+        	$this->page->addVar('pictures', $pictures);
+        	$this->page->addVar('similars', $similars);
+        	$this->page->addVar('empty', $empty);
+        	$this->page->addVar('resume', $resume);
+        }
+        else
+        {
+        	$this->app->httpResponse()->redirectError('404');
+        }
 	}
     
     public function executeList(\Library\HTTPRequest $request)
 	{
         $this->page->addVar('title', 'Articles');
         
-        $lang = $this->user->getLanguage() ;
-        $language = $this->em('Language')->DEF->getUnique(array('code' => $lang)) ;
-        
-        $language ? $id_lang = $language->id() : $id_lang = 3 ;
+        $id_lang = $this->getIdLanguage() ;
 
 		$request->getExists('page') ? $page = substr($request->getExists('page'), 1) : $page = 1 ;
 		
@@ -24,6 +106,7 @@ class ArticleController extends \Library\BackController
 		$search_tag = '' ;
 		$search_date = '' ;
 		$search = '' ;
+		$empty = '' ;
 		
 		if($request->getExists('search') && !empty($request->getData('search')))
 		{
@@ -81,38 +164,67 @@ class ArticleController extends \Library\BackController
 			$id_article = $article->id() ;
 				
 			$articles[$id_article]['created_at'] = $article->created_at() ;
-			$articles[$id_article]['picture'] = $article->picture() ;
-				
-			$auteur = $this->em('User')->DEF->getUnique($article->id_user()) ;
-				
-			if($id_lang == 1 && !empty($auteur->first_name_ch()))
-			{
-				$nom_auteur = $auteur->first_name_ch() ;
-		
-				if(!empty($auteur->last_name_ch())) $nom_auteur = $nom_auteur.' '.$auteur->last_name_ch() ;
-		
-				$articles[$id_article]['author'] = $nom_auteur ;
-			}
-			else
-			{
-				$articles[$id_article]['author'] = $auteur->first_name().' '.$auteur->last_name() ;
-			}
+			$articles[$id_article]['picture'] = $this->getPicturePath($article) ;
+			$articles[$id_article]['author'] = $this->getFormatAuthor($id_lang, $article->id_user()) ;
 		
 			if($id_lang == $id_language)
 			{
 				$articles[$id_article]['title'] = $article->title() ;
-				$articles[$id_article]['message'] = $article->message() ;
+				$articles[$id_article]['message'] = substr($article->message(), 0, 75) ;
 			}
 			else
 			{
 				$traduction = $this->em('ArticleTraduction')->DEF->getUnique(array('id_article' => $id_article, 'id_language' => $id_lang)) ;
 				$articles[$id_article]['title'] = $traduction->title() ;
-				$articles[$id_article]['message'] = $traduction->message() ;
+				$articles[$id_article]['message'] = substr($traduction->message(), 0, 75) ;
 			}
+		}
+		
+		if(count($articles > 0))
+		{
+			$no_article = array(1 => '有没有文章可显示', 2 => "Il n'y a aucun article à afficher", 3 => 'There are no articles to display');
+			isset($no_article[$id_lang]) ? $empty = $no_article[$id_lang] : $empty = $no_article[3] ;
 		}
 
 		$this->page->addVar('page', $page);
 		$this->page->addVar('max_page', $max_page);
 		$this->page->addVar('articles', $articles);
+		$this->page->addVar('empty', $empty);
+	}
+	
+	protected function getIdLanguage()
+	{
+		$lang = $this->user->getLanguage() ;
+		$language = $this->em('Language')->DEF->getUnique(array('code' => $lang)) ;
+		$language ? $id_lang = $language->id() : $id_lang = 3 ;
+		
+		return $id_lang ;
+	}
+	
+	protected function getFormatAuthor($id_lang, $id_user)
+	{
+		$auteur = $this->em('User')->DEF->getUnique($id_user) ;
+				
+		if($id_lang == 1 && !empty($auteur->first_name_ch()))
+		{
+			$nom_auteur = $auteur->first_name_ch() ;
+	
+			if(!empty($auteur->last_name_ch())) $nom_auteur = $nom_auteur.' '.$auteur->last_name_ch() ;
+	
+			return $nom_auteur ;
+		}
+		else
+		{
+			return $auteur->first_name().' '.$auteur->last_name() ;
+		}
+	}
+	
+	protected function getPicturePath($entity)
+	{
+		$entity instanceof Article ? $picture = $entity->picture() : $entity->name() ;
+		
+		$path = $_SERVER["DOCUMENT_ROOT"].PICTURE_FOLDER ;
+	
+		return (!empty($picture) && file_exists($path.$picture)) ? PICTURE_FOLDER.$picture : PICTURE_FOLDER.'default.png' ;
 	}
 }

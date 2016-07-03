@@ -3,17 +3,13 @@ namespace Library\Entities;
 
 use \Library\Crypt ;
 
-class Category extends \Library\Entity
+class Type extends \Library\Entity
 {
 	protected $name,
-              $id_language,
-			  $ordre;
+              $id_language;
 	
 	const NAME_INVALIDE = 1;
 	const ID_LANGUAGE_INVALIDE = 2;
-	const ORDRE_INVALIDE = 3;
-	
-	const ORDRE_INDISPONIBLE = 100;
   
   // SETTERS //
     
@@ -25,16 +21,6 @@ class Category extends \Library\Entity
 		}
 		
 		$this->id_language = $id;
-	}
-	
-	public function setOrdre($order)
-	{
-		if (!is_int($order) && !ctype_digit($order))
-		{
-			$this->erreurs[] = self::ORDRE_INVALIDE;
-		}
-		
-		$this->ordre = $order;
 	}
 	
 	public function setName($name)
@@ -57,10 +43,5 @@ class Category extends \Library\Entity
     public function id_language()
 	{
 		return $this->id_language;
-	}
-	
-	public function ordre()
-	{
-		return $this->ordre;
 	}
 }

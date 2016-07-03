@@ -6,7 +6,7 @@
     <route url="/article/([0-9]+)" module="Article" action="show" vars="id_article" />
     <route url="/articles(/[0-9]+)?([\S]+)?" module="Article" action="list" vars="page" />
     <route url="/agenda/([0-9]+)" module="Agenda" action="show" vars="id_agenda" />
-    <route url="/agenda/liste/([0-9]+)" module="Agenda" action="list" vars="page" />
+    <route url="/agenda/liste" module="Agenda" action="list" vars="page" />
     <route url="/equipe" module="Equipe" action="index" />
     <route url="/contact" module="Contact" action="index" />
 	

@@ -195,14 +195,15 @@ class Pdo
 			$debug = debug_backtrace();
 			throw new \InvalidArgumentException('Ligne '.$debug[0]["line"].' dans '.$debug[0]["file"].' : Argument invalide passe a Pdo::getUnique');
 		}
-		
+
 		$requete = $this->manager->dao->prepare($sql);
 		
 		foreach ($bind as $nom => $valeur) 
 		{
-			$requete->bindValue($nom, $valeur);
+			(is_int($valeur) || ctype_digit($valeur)) ? $param = \PDO::PARAM_INT : $param = \PDO::PARAM_STR ;
+			$requete->bindValue($nom, $valeur, $param);
 		}
-		
+
 		$requete->execute();
 		$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->namespace);
 		

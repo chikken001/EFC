@@ -9,13 +9,27 @@ class Agenda extends \Library\Entity
 			  $message,
               $created_at,
 			  $date,
-              $id_language;
+              $id_language,
+			  $place,
+			  $city,
+			  $postal_code,
+			  $adress,
+			  $city_ch,
+			  $place_ch, 
+			  $id_type;
 	
 	const TITLE_INVALIDE = 1;
 	const MESSAGE_INVALIDE = 2;
 	const CREATED_AT_INVALIDE = 3;
 	const DATE_INVALIDE = 4;
     const ID_LANGUAGE_INVALIDE = 5;
+	const POSTAL_CODE_INVALIDE = 6;
+	const PLACE_INVALIDE = 7;
+	const PLACE_CH_INVALIDE = 8;
+	const CITY_INVALIDE = 9;
+	const CITY_CH_INVALIDE = 10;
+	const ADRESS_INVALIDE = 11;
+	const ID_TYPE_INVALIDE = 12;
   
   // SETTERS //
   
@@ -28,6 +42,26 @@ class Agenda extends \Library\Entity
 		
 		$this->message = $message;
 	}
+	
+	public function setAdress($adress)
+	{
+		if (!is_string($adress) || !is_numeric($adress))
+		{
+			$this->erreurs[] = self::ADRESS_INVALIDE;
+		}
+		
+		$this->adress = $adress;
+	}
+	
+	public function setPostal_code($code)
+	{
+		if (!$this->validator->is_Code_postal($code))
+		{
+			$this->erreurs[] = self::POSTAL_CODE_INVALIDE;
+		}
+		
+		$this->code = $code;
+	}
     
     public function setId_language($id)
 	{
@@ -39,6 +73,16 @@ class Agenda extends \Library\Entity
 		$this->id_language = $id;
 	}
 	
+	public function setId_type($id)
+	{
+		if (!$this->validator->is_Id($id))
+		{
+			$this->erreurs[] = self::ID_TYPE_INVALIDE;
+		}
+		
+		$this->id_type = $id;
+	}
+	
 	public function setTitle($titre)
 	{
 		if (!$this->validator->is_Intitule($titre,1,150))
@@ -47,6 +91,46 @@ class Agenda extends \Library\Entity
 		}
 		
 		$this->title = $titre;
+	}
+	
+	public function setPlace($place)
+	{
+		if (!$this->validator->is_Intitule($place,1,150))
+		{
+			$this->erreurs[] = self::PLACE_INVALIDE;
+		}
+		
+		$this->place = $place;
+	}
+	
+	public function setPlace_ch($place)
+	{
+		if (!$this->validator->is_Intitule($place,1,150))
+		{
+			$this->erreurs[] = self::PLACE_CH_INVALIDE;
+		}
+		
+		$this->place_ch = $place;
+	}
+	
+	public function setCity($city)
+	{
+		if (!$this->validator->is_Intitule($city,1,150))
+		{
+			$this->erreurs[] = self::CITY_INVALIDE;
+		}
+		
+		$this->city = $city;
+	}
+	
+	public function setCity_ch($city)
+	{
+		if (!$this->validator->is_Intitule($city,1,150))
+		{
+			$this->erreurs[] = self::CITY_CH_INVALIDE;
+		}
+		
+		$this->city_ch = $city;
 	}
 	
 	public function setCreated_at($date)
@@ -94,5 +178,40 @@ class Agenda extends \Library\Entity
     public function id_language()
 	{
 		return $this->id_language;
+	}
+	
+	public function id_type()
+	{
+		return $this->id_type;
+	}
+	
+	public function place()
+	{
+		return $this->place;
+	}
+	
+	public function place_ch()
+	{
+		return $this->place_ch;
+	}
+	
+	public function city()
+	{
+		return $this->place;
+	}
+	
+	public function city_ch()
+	{
+		return $this->city_ch;
+	}
+	
+	public function adress()
+	{
+		return $this->adress;
+	}
+	
+	public function postal_code()
+	{
+		return $this->postal_code;
 	}
 }

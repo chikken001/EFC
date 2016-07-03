@@ -22,30 +22,26 @@
 </section>
 
 <section id="liste-container">
-  <!--php call-->
-  <div class="item">
-    <img src=""/>
-    <h3></h3>
-    <p></p>
-    <a href="vers_article"> <input type="button" value="Bouton">?</a>
-  </div>
 <?php 
   
 	if(count($articles) > 0)
 	{
-		foreach($articles as $article)
+		foreach($articles as $id_article => $article)
 		{
 	  		echo '
-		    	<img src="/Web/upload/'.$article['picture'].'"/>
-		    	<h3>'.$article['title'].'</h3>
-				<p>'.$article['message'].'</p>
-				<p>'.$article['created_at'].' '.$article['author'].'</p>
+    			<div>
+			    	<img src="'.$article['picture'].'"/>
+			    	<h3>'.$article['title'].'</h3>
+					<p>'.$article['message'].'</p>
+					<p>'.$article['created_at'].' '.$article['author'].'</p>
+	      			<a href="/article/'.$id_article.'">En savoir plus</a>
+    			</div>
 		    ';
 	 	 }
   	}
 	else
 	{
-		echo "<p>Il n'y a aucun article à afficher</p>" ;
+		echo "<p>$empty</p>" ;
 	}
 ?>
 </section>
