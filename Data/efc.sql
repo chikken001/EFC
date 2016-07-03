@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 03 Juillet 2016 à 13:12
+-- Généré le :  Dim 03 Juillet 2016 à 21:28
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données :  `efc`
@@ -27,21 +27,31 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `agenda` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `title` varchar(150) NOT NULL,
   `message` text,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  `place` varchar(150) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `postal_code` varchar(6) DEFAULT NULL,
+  `adress` text,
+  `city_ch` varchar(100) DEFAULT NULL,
+  `place_ch` varchar(150) DEFAULT NULL,
+  `id_type` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_type` (`id_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `agenda`
 --
 
-INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_language`) VALUES
-(1, '2016-06-30', '2016-06-30 21:10:28', 'date de rendu du projet', 'Ouais on a fini ^^', 2),
-(2, '2016-07-09', '2016-06-30 21:16:06', 'sorti ciné', 'go voir warcraft', 2);
+INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_language`, `place`, `city`, `postal_code`, `adress`, `city_ch`, `place_ch`, `id_type`) VALUES
+(1, '2016-06-30', '2016-06-30 21:10:28', 'date de rendu du projet', 'Ouais on a fini ^^', 2, 'chez moi', 'nogent sur marne', '94130', '44 rue de coulmier', '马恩河畔诺让', '家', 2),
+(2, '2016-07-09', '2016-06-30 21:16:06', 'sorti ciné', 'go voir warcraft', 2, '', '', '', '', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -50,19 +60,22 @@ INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_langua
 --
 
 CREATE TABLE IF NOT EXISTS `agendatraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_agenda` int(11) NOT NULL,
   `id_language` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
-  `message` text
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `message` text,
+  PRIMARY KEY (`id`),
+  KEY `id_agenda` (`id_agenda`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `agendatraduction`
 --
 
 INSERT INTO `agendatraduction` (`id`, `id_agenda`, `id_language`, `title`, `message`) VALUES
-(1, 1, 1, '\r\n呈现项目的日期', '是啊，我们结束 ^^'),
+(1, 1, 1, '呈现项目的日期', '是啊，我们结束 ^^'),
 (2, 1, 3, 'rendering date of project', 'Yeah we ended ^^');
 
 -- --------------------------------------------------------
@@ -72,14 +85,17 @@ INSERT INTO `agendatraduction` (`id`, `id_agenda`, `id_language`, `title`, `mess
 --
 
 CREATE TABLE IF NOT EXISTS `article` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `picture` varchar(255) NOT NULL,
   `title` varchar(150) NOT NULL,
   `message` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user` int(11) NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `article`
@@ -98,12 +114,15 @@ INSERT INTO `article` (`id`, `picture`, `title`, `message`, `created_at`, `id_us
 --
 
 CREATE TABLE IF NOT EXISTS `articletraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_article` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
   `message` text,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_article` (`id_article`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `articletraduction`
@@ -120,10 +139,13 @@ INSERT INTO `articletraduction` (`id`, `id_article`, `title`, `message`, `id_lan
 --
 
 CREATE TABLE IF NOT EXISTS `article_tag` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `article` int(11) NOT NULL,
-  `tag` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `tag` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `article` (`article`),
+  KEY `tag` (`tag`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `article_tag`
@@ -142,18 +164,21 @@ INSERT INTO `article_tag` (`id`, `article`, `tag`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  `ordre` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `category`
 --
 
-INSERT INTO `category` (`id`, `name`, `id_language`) VALUES
-(1, 'Président en France d''Environnement France Chine', 2),
-(2, 'Chargée des relations avec les Universités', 2);
+INSERT INTO `category` (`id`, `name`, `id_language`, `ordre`) VALUES
+(1, 'Président en France d''Environnement France Chine', 2, 1),
+(2, 'Chargée des relations avec les Universités', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -162,11 +187,14 @@ INSERT INTO `category` (`id`, `name`, `id_language`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `categorytraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_category` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_category` (`id_category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `categorytraduction`
@@ -185,10 +213,12 @@ INSERT INTO `categorytraduction` (`id`, `id_category`, `name`, `id_language`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `job` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `job`
@@ -205,11 +235,14 @@ INSERT INTO `job` (`id`, `name`, `id_language`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `jobtraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_job` int(11) NOT NULL,
   `id_language` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_job` (`id_job`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `jobtraduction`
@@ -228,10 +261,11 @@ INSERT INTO `jobtraduction` (`id`, `id_job`, `id_language`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `language` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(155) NOT NULL,
-  `code` char(2) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `code` char(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Contenu de la table `language`
@@ -249,9 +283,10 @@ INSERT INTO `language` (`id`, `name`, `code`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `newsletter` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -260,10 +295,12 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
 --
 
 CREATE TABLE IF NOT EXISTS `picture` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `id_article` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `id_article` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_article` (`id_article`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `picture`
@@ -279,11 +316,14 @@ INSERT INTO `picture` (`id`, `name`, `id_article`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `resume` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` text NOT NULL,
   `id_language` int(11) NOT NULL,
-  `id_article` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `id_article` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_article` (`id_article`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `resume`
@@ -299,11 +339,14 @@ INSERT INTO `resume` (`id`, `message`, `id_language`, `id_article`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `resumetraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_resume` int(11) NOT NULL,
   `message` text NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_resume` (`id_resume`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `resumetraduction`
@@ -322,7 +365,8 @@ CREATE TABLE IF NOT EXISTS `session` (
   `sess_id` char(40) NOT NULL,
   `sess_datas` text NOT NULL,
   `sess_ip` varchar(15) NOT NULL,
-  `sess_expire` int(10) NOT NULL
+  `sess_expire` int(10) NOT NULL,
+  PRIMARY KEY (`sess_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -332,10 +376,12 @@ CREATE TABLE IF NOT EXISTS `session` (
 --
 
 CREATE TABLE IF NOT EXISTS `tag` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
-  `id_language` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `tag`
@@ -352,11 +398,14 @@ INSERT INTO `tag` (`id`, `name`, `id_language`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tagtraduction` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_tag` int(11) NOT NULL,
   `id_language` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_tag` (`id_tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -365,15 +414,17 @@ CREATE TABLE IF NOT EXISTS `tagtraduction` (
 --
 
 CREATE TABLE IF NOT EXISTS `team` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(150) NOT NULL,
   `last_name` varchar(150) NOT NULL,
   `first_name_ch` varchar(150) DEFAULT NULL,
   `last_name_ch` varchar(150) DEFAULT NULL,
   `id_category` int(11) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `picture` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `picture` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_category` (`id_category`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `team`
@@ -390,10 +441,13 @@ INSERT INTO `team` (`id`, `first_name`, `last_name`, `first_name_ch`, `last_name
 --
 
 CREATE TABLE IF NOT EXISTS `team_job` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `team` int(11) NOT NULL,
-  `job` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `job` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `team` (`team`),
+  KEY `job` (`job`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `team_job`
@@ -406,11 +460,57 @@ INSERT INTO `team_job` (`id`, `team`, `job`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `type`
+--
+
+CREATE TABLE IF NOT EXISTS `type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `id_language` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Contenu de la table `type`
+--
+
+INSERT INTO `type` (`id`, `name`, `id_language`) VALUES
+(1, 'cinema', 2),
+(2, 'autre', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `typetraduction`
+--
+
+CREATE TABLE IF NOT EXISTS `typetraduction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_type` int(11) NOT NULL,
+  `id_language` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_language` (`id_language`),
+  KEY `id_type` (`id_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Contenu de la table `typetraduction`
+--
+
+INSERT INTO `typetraduction` (`id`, `id_type`, `id_language`, `name`) VALUES
+(1, 1, 1, '电影院'),
+(2, 1, 3, 'cinema');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `login` varchar(255) NOT NULL,
   `password` char(128) NOT NULL,
@@ -420,8 +520,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `salt` char(10) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `first_name_ch` varchar(150) DEFAULT NULL,
-  `last_name_ch` varchar(150) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `last_name_ch` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `user`
@@ -431,255 +532,6 @@ INSERT INTO `user` (`id`, `admin`, `login`, `password`, `last_name`, `first_name
 (2, 0, 'chikken', '5873272b15f16e4f05be25d52235936c26d8b8051e7a439fea7b976d352e529e8b12f013351e37fd05a1e250cb678245da58ac53af2a25c7b6f69bdae2caad12', 'aujean', 'thomas', '2016-06-25 20:42:27', '@e6Hù9+aQ5', 1, '托马斯', NULL);
 
 --
--- Index pour les tables exportées
---
-
---
--- Index pour la table `agenda`
---
-ALTER TABLE `agenda`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `agendatraduction`
---
-ALTER TABLE `agendatraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_agenda` (`id_agenda`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `article`
---
-ALTER TABLE `article`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `articletraduction`
---
-ALTER TABLE `articletraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`),
-  ADD KEY `id_article` (`id_article`);
-
---
--- Index pour la table `article_tag`
---
-ALTER TABLE `article_tag`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `article` (`article`),
-  ADD KEY `tag` (`tag`);
-
---
--- Index pour la table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `categorytraduction`
---
-ALTER TABLE `categorytraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`),
-  ADD KEY `id_category` (`id_category`);
-
---
--- Index pour la table `job`
---
-ALTER TABLE `job`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `jobtraduction`
---
-ALTER TABLE `jobtraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_job` (`id_job`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `language`
---
-ALTER TABLE `language`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `newsletter`
---
-ALTER TABLE `newsletter`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `picture`
---
-ALTER TABLE `picture`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_article` (`id_article`);
-
---
--- Index pour la table `resume`
---
-ALTER TABLE `resume`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`),
-  ADD KEY `id_article` (`id_article`);
-
---
--- Index pour la table `resumetraduction`
---
-ALTER TABLE `resumetraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`),
-  ADD KEY `id_resume` (`id_resume`);
-
---
--- Index pour la table `session`
---
-ALTER TABLE `session`
-  ADD PRIMARY KEY (`sess_id`);
-
---
--- Index pour la table `tag`
---
-ALTER TABLE `tag`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`);
-
---
--- Index pour la table `tagtraduction`
---
-ALTER TABLE `tagtraduction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_language` (`id_language`),
-  ADD KEY `id_tag` (`id_tag`);
-
---
--- Index pour la table `team`
---
-ALTER TABLE `team`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_category` (`id_category`);
-
---
--- Index pour la table `team_job`
---
-ALTER TABLE `team_job`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `team` (`team`),
-  ADD KEY `job` (`job`);
-
---
--- Index pour la table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `agenda`
---
-ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `agendatraduction`
---
-ALTER TABLE `agendatraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `article`
---
-ALTER TABLE `article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `articletraduction`
---
-ALTER TABLE `articletraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `article_tag`
---
-ALTER TABLE `article_tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `category`
---
-ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `categorytraduction`
---
-ALTER TABLE `categorytraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `job`
---
-ALTER TABLE `job`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `jobtraduction`
---
-ALTER TABLE `jobtraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `language`
---
-ALTER TABLE `language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT pour la table `newsletter`
---
-ALTER TABLE `newsletter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `picture`
---
-ALTER TABLE `picture`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `resume`
---
-ALTER TABLE `resume`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `resumetraduction`
---
-ALTER TABLE `resumetraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `tag`
---
-ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `tagtraduction`
---
-ALTER TABLE `tagtraduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `team`
---
-ALTER TABLE `team`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `team_job`
---
-ALTER TABLE `team_job`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
 -- Contraintes pour les tables exportées
 --
 
@@ -687,6 +539,7 @@ ALTER TABLE `user`
 -- Contraintes pour la table `agenda`
 --
 ALTER TABLE `agenda`
+  ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`),
   ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
 
 --
@@ -789,6 +642,19 @@ ALTER TABLE `team`
 ALTER TABLE `team_job`
   ADD CONSTRAINT `team_job_ibfk_1` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
   ADD CONSTRAINT `team_job_ibfk_2` FOREIGN KEY (`job`) REFERENCES `job` (`id`);
+
+--
+-- Contraintes pour la table `type`
+--
+ALTER TABLE `type`
+  ADD CONSTRAINT `type_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+
+--
+-- Contraintes pour la table `typetraduction`
+--
+ALTER TABLE `typetraduction`
+  ADD CONSTRAINT `typetraduction_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`),
+  ADD CONSTRAINT `typetraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
