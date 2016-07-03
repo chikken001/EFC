@@ -74,16 +74,46 @@ class AgendaController extends \Library\BackController
         	if($id_lang == $id_language)
         	{
         		$agendas[$id_agenda]['title'] = $agenda->title() ;
-        		$agendas[$id_agenda]['message'] = substr($agenda->message(), 0, 75) ;
+        		$agendas[$id_agenda]['message'] = $agenda->message() ;
         	}
         	else
         	{
         		$traduction = $this->em('AgendaTraduction')->DEF->getUnique(array('id_agenda' => $id_agenda, 'id_language' => $id_lang)) ;
         		$agendas[$id_agenda]['title'] = $traduction->title() ;
-        		$agendas[$id_agenda]['message'] = substr($traduction->message(), 0, 75) ;
+        		$agendas[$id_agenda]['message'] = $traduction->message();
         	}
+			
+			if($id_lang == 1)
+        	{
+        		$city = $agenda->city_ch() ;
+        		$place = $agenda->place_ch() ;
+        	}
+        	else 
+        	{
+        		$city = $agenda->city() ;
+        		$place = $agenda->place() ;
+        	}
+			
+			$agendas[$id_agenda]['city'] = $city ;
+        	$agendas[$id_agenda]['place'] = $place ;
+			$agendas[$id_agenda]['postal_code'] = $agenda->postal_code() ;
+			$agendas[$id_agenda]['adress'] = $agenda->adress() ;
+			
+			$type = $this->em('Type')->DEF->getUnique($agenda->id_type()) ;
+			
+			if($type->id_language() != $id_lang)
+			{
+				$typetraduction = $this->em('TypeTraduction')->DEF->getUnique(array('id_type' => $agenda->id_type(), 'id_language' => $id_lang)) ;
+				$typetraduction ? $event = $typetraduction->name() : $event = $type->name() ;
+			}
+			else
+			{
+				$event = $type->name() ;
+			}
+			
+			$agendas[$id_agenda]['event'] = $event ;
         }
-        
+        var_dump($agendas) ;
         $this->page->addVar('agendas', $agendas);
 	}
 	

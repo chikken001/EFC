@@ -15,10 +15,10 @@ class AgendaManager_PDO extends AgendaManager
 	
 	public function getByLanguage($id_lang, $offset = -1, $limit = -1)
 	{
-		$query = 'SELECT a.* FROM agenda a
+		$query = 'SELECT a.* FROM '.$this->entity_database.' a
 				   left join agendatraduction at on a.id = at.id_agenda
 				   where a.id_language = :id_lang or at.id_language = :id_lang
-				   group by a.id, a.date, a.title, a.message, a.created_at, a.id_language
+				   group by a.id, a.date, a.title, a.message, a.created_at, a.id_language, a.place, a.place_ch, a.postal_code, a.city, a.city_ch, a.adress, id_type
 				   order by a.date';
 		
 		$bind[':id_lang'] = $id_lang ;

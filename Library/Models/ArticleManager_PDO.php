@@ -15,7 +15,7 @@ class ArticleManager_PDO extends ArticleManager
 	
 	public function getByLanguage($id_lang, $offset = -1, $limit = -1)
 	{
-		$requete = $this->dao->prepare('SELECT a.* FROM article a
+		$requete = $this->dao->prepare('SELECT a.* FROM '.$this->entity_database.' a
 									   left join articletraduction at on a.id = at.id_article
 									   where a.id_language = :id_lang or at.id_language = :id_lang
 									   group by a.id, a.picture, a.title, a.message, a.created_at, a.id_user, a.id_language
@@ -38,7 +38,7 @@ class ArticleManager_PDO extends ArticleManager
 	
 	public function countSearch($id_lang, $search = '', $date = '', $tag = '')
 	{
-		$query = "SELECT COUNT(a.id) FROM article a
+		$query = "SELECT COUNT(a.id) FROM ".$this->entity_database." a
 							 left join articletraduction at on a.id = at.id_article
 							 left join article_tag att on att.article = a.id
 							 left join tag t on t.id = att.tag
@@ -88,7 +88,7 @@ class ArticleManager_PDO extends ArticleManager
 	
 	public function search($id_lang, $search = '', $date = '', $tag = '', $offset = -1, $limit = -1)
 	{
-		$query = "SELECT a.* FROM article a
+		$query = "SELECT a.* FROM ".$this->entity_database." a
 							 left join articletraduction at on a.id = at.id_article
 							 left join article_tag att on att.article = a.id
 							 left join tag t on t.id = att.tag

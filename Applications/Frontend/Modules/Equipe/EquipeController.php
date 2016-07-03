@@ -19,13 +19,14 @@ class EquipeController extends \Library\BackController
         {
         	$id_category = $member->id_category() ;
         	$id_member = $member->id() ;
+			$category = $this->em('Category')->DEF->getUnique($id_category) ;
+			$ordre = $category->ordre() ;
         	
-        	if(!isset($categories[$id_category]))
+        	if(!isset($categories[$ordre]))
         	{
-        		$category = $this->em('Category')->DEF->getUnique($id_category) ;
         		$id_language = $category->id_language() ;
         		
-        		$categories[$id_category][$id_language] = $category->name() ;
+        		$categories[$ordre][$id_language] = $category->name() ;
         		
         		if($id_language != $id_lang)
         		{
@@ -33,14 +34,14 @@ class EquipeController extends \Library\BackController
 	        		
 	        		if($category_traduction)
 	        		{
-	        			$categories[$id_category][$id_lang] = $category_traduction->name() ;
+	        			$categories[$ordre][$id_lang] = $category_traduction->name() ;
 	        		}
         		}
         	}
         	
-        	if(!isset($team[$id_category]))
+        	if(!isset($team[$ordre]))
         	{
-        		isset($categories[$id_category][$id_lang]) ? $team[$id_category]['name'] = $categories[$id_category][$id_lang] : $team[$id_category]['name'] = '' ;
+        		isset($categories[$ordre][$id_lang]) ? $team[$ordre]['name'] = $categories[$ordre][$id_lang] : $team[$ordre]['name'] = '' ;
         	}
         	
         	$Jobs = $this->em('Team')->DEF->getAssociate($id_member, 'job') ;
@@ -83,12 +84,14 @@ class EquipeController extends \Library\BackController
         		$prenom = $member->first_name() ;
         	}
         	
-        	$team[$id_category]['members'][$id_member]['nom'] = $nom ;
-        	$team[$id_category]['members'][$id_member]['prenom'] = $prenom ;
-        	$team[$id_category]['members'][$id_member]['picture'] = $this->getPicturePath($member) ; ;
-        	$team[$id_category]['members'][$id_member]['jobs'] = $members_jobs[$id_member] ;
+        	$team[$ordre]['members'][$id_member]['nom'] = $nom ;
+        	$team[$ordre]['members'][$id_member]['prenom'] = $prenom ;
+        	$team[$ordre]['members'][$id_member]['picture'] = $this->getPicturePath($member) ; ;
+        	$team[$ordre]['members'][$id_member]['jobs'] = $members_jobs[$id_member] ;
         }
-
+		
+		ksort($team);
+		
         $this->page->addVar('team', $team);
 	}
 	

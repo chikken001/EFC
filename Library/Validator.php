@@ -182,7 +182,7 @@ class Validator
 	
 	public function is_Code_postal($code_postal)
 	{
-		if (preg_match('#^[0-9]{5}$#',$code_postal))
+		if (preg_match('#^[0-9]{5}([0-9]{1})?$#',$code_postal))
 		{
 			return true ;
 		}
