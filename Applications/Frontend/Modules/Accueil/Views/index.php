@@ -41,43 +41,25 @@
 
 			<section id="article-sample">
         <figcaption>ACTUALITES</figcaption>
-
-        <!--php call-->
+		
         <div id="box-item-article">
-  				<div class="item-article">
-
-    					<img src="/web/img/8265922-12928727.jpg">
-              <i>
-                <a href="#">></a>
-              </i>
-              </img>
-
-  					<h3>KOF 2016 CONFIMENTUM</h3>
-  					<p><span>D</span>ictum vel augue non, sagittis hendrerit orci. Morbi id euistempor eget ac lectus non premi
-...</p>
-  				</div>
-
-          <!--item test-->
-          <div class="item-article">
-  					<img src="/web/img/photo-1440940627368-bd68a386bb73.jpg">
-            <i>
-              <a href="#">></a>
-            </i>
-            </img>
-  					<h3>KOF 2016 CONFIMENTUM</h3>
-  					<p><span>D</span>ictum vel augue non, sagittis hendrerit orci. Morbi id euistempor eget ac lectus non premi
-...</p>
-  				</div>
-          <div class="item-article">
-  					<img src="/web/img/photo-1417144527634-653e3dec77b2.jpg">
-            <i>
-              <a href="#">></a>
-            </i>
-            </img>
-  					<h3>KOF 2016 CONFIMENTUM</h3>
-  					<p><span>D</span>ictum vel augue non, sagittis hendrerit orci. Morbi id euistempor eget ac lectus non premi
-...</p>
-  				</div>
+  			<?php
+				foreach($articles as $id_article => $article)
+				{
+					echo '
+						<div class="item-article">
+							<img src="'.$article['picture'].'">
+							<i>
+								<a href="/article/'.$id_article.'">></a>
+							</i>
+							</img>
+							<h3>'.$article['title'].'</h3>
+							<p>'.$article['message'].'...</p>
+						</div>
+					';
+				 }
+			?>
+  		</div>
           <!--fin item test-->
         </div>
 			</section>
