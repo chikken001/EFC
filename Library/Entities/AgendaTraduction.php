@@ -8,12 +8,16 @@ class AgendaTraduction extends \Library\Entity
 	protected $title,
 			  $message,
               $id_agenda,
-              $id_language;
+              $id_language,
+              $city,
+              $place;
 	
 	const TITLE_INVALIDE = 1;
 	const MESSAGE_INVALIDE = 2;
 	const ID_AGENDA_INVALIDE = 3;
     const ID_LANGUAGE_INVALIDE = 4;
+    const PLACE_INVALIDE = 5;
+    const CITY_INVALIDE = 6;
   
   // SETTERS //
   
@@ -56,6 +60,26 @@ class AgendaTraduction extends \Library\Entity
 		
 		$this->title = $titre;
 	}
+	
+	public function setPlace($place)
+	{
+		if (!$this->validator->is_Intitule($place,1,150))
+		{
+			$this->erreurs[] = self::PLACE_INVALIDE;
+		}
+	
+		$this->place = $place;
+	}
+	
+	public function setCity($city)
+	{
+		if (!$this->validator->is_Intitule($city,1,150))
+		{
+			$this->erreurs[] = self::CITY_INVALIDE;
+		}
+	
+		$this->city = $city;
+	}
   
   // GETTERS //
   
@@ -77,5 +101,15 @@ class AgendaTraduction extends \Library\Entity
     public function id_language()
 	{
 		return $this->id_language;
+	}
+	
+	public function place()
+	{
+		return $this->place;
+	}
+	
+	public function city()
+	{
+		return $this->place;
 	}
 }

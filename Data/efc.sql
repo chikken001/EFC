@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 03 Juillet 2016 à 21:28
+-- Généré le :  Mer 13 Juillet 2016 à 18:55
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -36,9 +36,7 @@ CREATE TABLE IF NOT EXISTS `agenda` (
   `place` varchar(150) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `postal_code` varchar(6) DEFAULT NULL,
-  `adress` text,
-  `city_ch` varchar(100) DEFAULT NULL,
-  `place_ch` varchar(150) DEFAULT NULL,
+  `address` text,
   `id_type` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_language` (`id_language`),
@@ -49,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `agenda` (
 -- Contenu de la table `agenda`
 --
 
-INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_language`, `place`, `city`, `postal_code`, `adress`, `city_ch`, `place_ch`, `id_type`) VALUES
-(1, '2016-06-30', '2016-06-30 21:10:28', 'date de rendu du projet', 'Ouais on a fini ^^', 2, 'chez moi', 'nogent sur marne', '94130', '44 rue de coulmier', '马恩河畔诺让', '家', 2),
-(2, '2016-07-09', '2016-06-30 21:16:06', 'sorti ciné', 'go voir warcraft', 2, '', '', '', '', NULL, NULL, 1);
+INSERT INTO `agenda` (`id`, `date`, `created_at`, `title`, `message`, `id_language`, `place`, `city`, `postal_code`, `address`, `id_type`) VALUES
+(1, '2016-06-30', '2016-06-30 21:10:28', 'date de rendu du projet', 'Ouais on a fini ^^', 2, 'chez moi', 'nogent sur marne', '94130', '44 rue de coulmier', 2),
+(2, '2016-07-09', '2016-06-30 21:16:06', 'sorti ciné', 'go voir warcraft', 2, '', '', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -65,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `agendatraduction` (
   `id_language` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
   `message` text,
+  `place` varchar(150) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_agenda` (`id_agenda`),
   KEY `id_language` (`id_language`)
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS `agendatraduction` (
 -- Contenu de la table `agendatraduction`
 --
 
-INSERT INTO `agendatraduction` (`id`, `id_agenda`, `id_language`, `title`, `message`) VALUES
-(1, 1, 1, '呈现项目的日期', '是啊，我们结束 ^^'),
-(2, 1, 3, 'rendering date of project', 'Yeah we ended ^^');
+INSERT INTO `agendatraduction` (`id`, `id_agenda`, `id_language`, `title`, `message`, `place`, `city`) VALUES
+(1, 1, 1, '呈现项目的日期', '是啊，我们结束 ^^', NULL, NULL),
+(2, 1, 3, 'rendering date of project', 'Yeah we ended ^^', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -369,6 +369,13 @@ CREATE TABLE IF NOT EXISTS `session` (
   PRIMARY KEY (`sess_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `session`
+--
+
+INSERT INTO `session` (`sess_id`, `sess_datas`, `sess_ip`, `sess_expire`) VALUES
+('djqhp0bmq34k52pl8hl78cfim5', 'key|s:8:"dd/Ã†6)3";lang|s:2:"fr";', '127.0.0.1', 1468431973);
+
 -- --------------------------------------------------------
 
 --
@@ -539,8 +546,8 @@ INSERT INTO `user` (`id`, `admin`, `login`, `password`, `last_name`, `first_name
 -- Contraintes pour la table `agenda`
 --
 ALTER TABLE `agenda`
-  ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`),
-  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`);
 
 --
 -- Contraintes pour la table `agendatraduction`
@@ -653,8 +660,8 @@ ALTER TABLE `type`
 -- Contraintes pour la table `typetraduction`
 --
 ALTER TABLE `typetraduction`
-  ADD CONSTRAINT `typetraduction_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`),
-  ADD CONSTRAINT `typetraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`);
+  ADD CONSTRAINT `typetraduction_ibfk_1` FOREIGN KEY (`id_language`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `typetraduction_ibfk_2` FOREIGN KEY (`id_type`) REFERENCES `type` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

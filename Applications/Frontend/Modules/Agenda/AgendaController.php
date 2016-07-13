@@ -75,29 +75,20 @@ class AgendaController extends \Library\BackController
         	{
         		$agendas[$id_agenda]['title'] = $agenda->title() ;
         		$agendas[$id_agenda]['message'] = $agenda->message() ;
+        		$agendas[$id_agenda]['place'] = $agenda->place() ;
+        		$agendas[$id_agenda]['city'] = $agenda->city() ;
         	}
         	else
         	{
         		$traduction = $this->em('AgendaTraduction')->DEF->getUnique(array('id_agenda' => $id_agenda, 'id_language' => $id_lang)) ;
         		$agendas[$id_agenda]['title'] = $traduction->title() ;
         		$agendas[$id_agenda]['message'] = $traduction->message();
+        		$agendas[$id_agenda]['place'] = $traduction->place() ;
+        		$agendas[$id_agenda]['city'] = $traduction->city() ;
         	}
 			
-			if($id_lang == 1)
-        	{
-        		$city = $agenda->city_ch() ;
-        		$place = $agenda->place_ch() ;
-        	}
-        	else 
-        	{
-        		$city = $agenda->city() ;
-        		$place = $agenda->place() ;
-        	}
-			
-			$agendas[$id_agenda]['city'] = $city ;
-        	$agendas[$id_agenda]['place'] = $place ;
 			$agendas[$id_agenda]['postal_code'] = $agenda->postal_code() ;
-			$agendas[$id_agenda]['adress'] = $agenda->adress() ;
+			$agendas[$id_agenda]['address'] = $agenda->address() ;
 			
 			$type = $this->em('Type')->DEF->getUnique($agenda->id_type()) ;
 			
@@ -113,7 +104,7 @@ class AgendaController extends \Library\BackController
 			
 			$agendas[$id_agenda]['event'] = $event ;
         }
-        var_dump($agendas) ;
+        
         $this->page->addVar('agendas', $agendas);
 	}
 	

@@ -338,7 +338,6 @@ class ArticleManager_PDO extends ArticleManager
 		$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Resume');
 		
 		$resume = $requete->fetch();
-		$requete->closeCursor();
 		
 		if($resume)
 		{
@@ -356,5 +355,7 @@ class ArticleManager_PDO extends ArticleManager
 		{
 			return '' ;
 		}
+		
+		$requete->closeCursor();
 	}
 }

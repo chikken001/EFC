@@ -18,7 +18,7 @@ class AgendaManager_PDO extends AgendaManager
 		$query = 'SELECT a.* FROM '.$this->entity_database.' a
 				   left join agendatraduction at on a.id = at.id_agenda
 				   where a.id_language = :id_lang or at.id_language = :id_lang
-				   group by a.id, a.date, a.title, a.message, a.created_at, a.id_language, a.place, a.place_ch, a.postal_code, a.city, a.city_ch, a.adress, id_type
+				   group by a.id, a.date, a.title, a.message, a.created_at, a.id_language, a.place, a.postal_code, a.city, a.address, id_type
 				   order by a.date';
 		
 		$bind[':id_lang'] = $id_lang ;
@@ -44,6 +44,30 @@ class AgendaManager_PDO extends AgendaManager
 	
 		$requete->closeCursor();
 	
+		return $listeAgenda ;
+	}
+	
+	public function getLast($id_lang, $nb = 1)
+	{
+		$query = 'SELECT a.* FROM '.$this->entity_database.' a
+				   left join agendatraduction at on a.id = at.id_agenda
+				   where a.id_language = :id_lang or at.id_language = :id_lang
+				   group by a.id, a.date, a.title, a.message, a.created_at, a.id_language, a.place, a.postal_code, a.city, a.address, id_type
+				   order by a.date DESC
+				   limit :limit';
+		
+		$requete = $this->dao->prepare($query) ;
+		
+		$requete->bindValue('limit', $nb, \PDO::PARAM_INT);
+		$requete->bindValue('id_lang', $id_lang, \PDO::PARAM_INT);
+		
+		$requete->execute();
+		$requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Library\Entities\Agenda');
+		
+		$listeAgenda = $requete->fetchAll();
+		
+		$requete->closeCursor();
+		
 		return $listeAgenda ;
 	}
 }

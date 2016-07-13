@@ -13,9 +13,7 @@ class Agenda extends \Library\Entity
 			  $place,
 			  $city,
 			  $postal_code,
-			  $adress,
-			  $city_ch,
-			  $place_ch, 
+			  $address,
 			  $id_type;
 	
 	const TITLE_INVALIDE = 1;
@@ -25,10 +23,8 @@ class Agenda extends \Library\Entity
     const ID_LANGUAGE_INVALIDE = 5;
 	const POSTAL_CODE_INVALIDE = 6;
 	const PLACE_INVALIDE = 7;
-	const PLACE_CH_INVALIDE = 8;
 	const CITY_INVALIDE = 9;
-	const CITY_CH_INVALIDE = 10;
-	const ADRESS_INVALIDE = 11;
+	const ADDRESS_INVALIDE = 11;
 	const ID_TYPE_INVALIDE = 12;
   
   // SETTERS //
@@ -43,14 +39,14 @@ class Agenda extends \Library\Entity
 		$this->message = $message;
 	}
 	
-	public function setAdress($adress)
+	public function setAddress($address)
 	{
-		if (!is_string($adress) || !is_numeric($adress))
+		if (!is_string($address) || !is_numeric($address))
 		{
-			$this->erreurs[] = self::ADRESS_INVALIDE;
+			$this->erreurs[] = self::ADDRESS_INVALIDE;
 		}
 		
-		$this->adress = $adress;
+		$this->address = $address;
 	}
 	
 	public function setPostal_code($code)
@@ -103,16 +99,6 @@ class Agenda extends \Library\Entity
 		$this->place = $place;
 	}
 	
-	public function setPlace_ch($place)
-	{
-		if (!$this->validator->is_Intitule($place,1,150))
-		{
-			$this->erreurs[] = self::PLACE_CH_INVALIDE;
-		}
-		
-		$this->place_ch = $place;
-	}
-	
 	public function setCity($city)
 	{
 		if (!$this->validator->is_Intitule($city,1,150))
@@ -121,16 +107,6 @@ class Agenda extends \Library\Entity
 		}
 		
 		$this->city = $city;
-	}
-	
-	public function setCity_ch($city)
-	{
-		if (!$this->validator->is_Intitule($city,1,150))
-		{
-			$this->erreurs[] = self::CITY_CH_INVALIDE;
-		}
-		
-		$this->city_ch = $city;
 	}
 	
 	public function setCreated_at($date)
@@ -190,24 +166,14 @@ class Agenda extends \Library\Entity
 		return $this->place;
 	}
 	
-	public function place_ch()
-	{
-		return $this->place_ch;
-	}
-	
 	public function city()
 	{
 		return $this->place;
 	}
 	
-	public function city_ch()
+	public function address()
 	{
-		return $this->city_ch;
-	}
-	
-	public function adress()
-	{
-		return $this->adress;
+		return $this->address;
 	}
 	
 	public function postal_code()

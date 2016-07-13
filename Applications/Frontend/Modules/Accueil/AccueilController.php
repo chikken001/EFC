@@ -38,7 +38,56 @@ class AccueilController extends \Library\BackController
 			}
 		}
 		
+		$Agendas = $this->em('Agenda')->getLast($id_lang, 3) ;
+		$agendas = array() ;
+		
+		foreach($Agendas as $agenda)
+		{
+			$id_language = $agenda->id_language() ;
+			$id_agenda = $agenda->id() ;
+		
+			$agendas[$id_agenda]['date'] = $agenda->date() ;
+			$agendas[$id_agenda]['postal_code'] = $agenda->postal_code() ;
+			$agendas[$id_agenda]['address'] = $agenda->address() ;
+		
+			if($id_lang == $id_language)
+			{
+				$agendas[$id_agenda]['title'] = $agenda->title() ;
+				$agendas[$id_agenda]['message'] = substr($agenda->message(), 0, 75) ;
+				$agendas[$id_agenda]['place'] = $agenda->place() ;
+				$agendas[$id_agenda]['city'] = $agenda->city() ;
+			}
+			else
+			{
+				$traduction = $this->em('AgendaTraduction')->DEF->getUnique(array('id_agenda' => $id_agenda, 'id_language' => $id_lang)) ;
+				$agendas[$id_agenda]['title'] = $traduction->title() ;
+				$agendas[$id_agenda]['message'] = substr($traduction->message(), 0, 75) ;
+				$agendas[$id_agenda]['place'] = $traduction->place() ;
+				$agendas[$id_agenda]['city'] = $traduction->city() ;
+			}
+			
+			$type_event = $this->em('Type')->DEF->getUnique($agenda->id_type()) ;
+			$id_language_event = $type_event->id_language() ;
+			$id_type = $type_event->id() ;
+			
+			if($id_language_event == $id_lang)
+			{
+				$agendas[$id_agenda]['event'] = $type_event->name() ;
+			}
+			else 
+			{
+				$traduction = $this->em('TypeTraduction')->DEF->getUnique(array('id_type' => $id_type, 'id_language' => $id_lang)) ;
+				
+				if(!$traduction && $id_lang != 3) $traduction = $this->em('TypeTraduction')->DEF->getUnique(array('id_type' => $id_type, 'id_language' => 3)) ;
+				
+				$traduction ? $event = $traduction->name() : $event = $type_event->name() ;
+				$agendas[$id_agenda]['event'] = $event ;
+			}
+			
+		}
+
 		$this->page->addVar('articles', $articles);
+		$this->page->addVar('agendas', $agendas);
 	}
 	
 	public function executeLanguage(\Library\HTTPRequest $request)
