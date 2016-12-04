@@ -1,0 +1,3 @@
+efc_cms_homepage:
+    path:     /
+    defaults: { _controller: EfcCmsBundle:Default:index }

@@ -7,7 +7,7 @@
 
         {% block stylesheets %}
             {% stylesheets filter='cssrewrite'
-            '@EfcCmsBundle/Resources/public/css/style.css'
+            '@EfcBackOfficeBundle/Resources/public/css/back-office.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -15,7 +15,7 @@
             {% endstylesheets %}
         {% endblock %}
 
-        <link rel="icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 
     </head>
 
@@ -49,7 +49,7 @@
             {% endfor %}
         {% endblock %}
 
-        <main>{% block content %}{% endblock %}</main>
+        {% block content %}{% endblock %}
 
         {% block footer %}{% endblock %}
 
@@ -57,7 +57,7 @@
 
             {% javascripts
             '@EfcCmsBundle/Resources/public/js/libs/jquery2.0.3.min.js'
-            '@EfcCmsBundle/Resources/public/js/offnav.js'
+            '@EfcBackOfficeBundle/Resources/public/js/back-office.js'
             %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}

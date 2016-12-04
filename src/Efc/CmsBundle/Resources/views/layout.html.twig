@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% block header %}
+    <div class="bg-cover" class="none"></div>
+
+    <ul id="langage">
+        <a href=""> <li class="selected">FR</li></a>
+        <a href=""> <li>EN</li></a>
+        <a href=""> <li>中文</li></a>
+    </ul>
+    <a class="hamburger-shell">
+        <div id="nav-icon3">
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul id="menu">
+            <a href=""> <li>accueil</li></a>
+            <a href=""> <li>articles</li></a>
+            <a href=""> <li>equipe</li></a>
+            <a href=""> <li>contact</li></a>
+        </ul>
+    </a>
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+    <div class="container">
+
+        <div class="footitem">
+            <ul class="social-icons">
+                <li><img src="{{ asset('img/Untitled-2.svg') }}"/></li>
+                <li><img src="{{ asset('img/Untitled-1.svg') }}"/></li>
+                <li><img src="{{ asset('img/Untitled-3.svg') }}"/></li>
+            </ul>
+
+        </div>
+
+        <div class="footitem">
+
+            <h2>l'association</h2>
+            <p>194, rue de Rivoli - 75001 PARIS<br/> +33(1) 44 18 60 30</p>
+            <p>contact@environnement-france-chine.org</p>
+        </div>
+
+
+        <div class="footitem">
+            <h2>newsletter</h2>
+            <form id="suscribe-form">
+                <input type="email" placeholder="Your@mail.com">
+                <input type="submit" value="souscrire - >">
+            </form>
+        </div>
+
+        <h4 class="copyright">&copy; {{ "now"|date("Y") }} - Environnement France Chine</h4>
+
+    </div>
+{% endblock %}

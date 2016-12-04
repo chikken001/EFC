@@ -1,0 +1,19 @@
+# SECURITY
+avea_patrimoine_back_office_security_login:
+    path:     /login
+    defaults: { _controller: EfcBackOfficeBundle:Security:login }
+
+avea_patrimoine_back_office_security_check:
+    path:     /login-check
+    defaults: { _controller: EfcBackOfficeBundle:Security:check }
+    requirements:
+        _method: POST
+
+avea_patrimoine_back_office_security_logout:
+    path:     /logout
+    defaults: { _controller: EfcBackOfficeBundle:Security:logout }
+
+# BACKOFFICE
+efc_back_office_homepage:
+    path:     /
+    defaults: { _controller: EfcBackOfficeBundle:Default:index }
