@@ -7,7 +7,7 @@
 
         {% block stylesheets %}
             {% stylesheets filter='?cssembed,cssrewrite,?yui_css'
-                '@EfcBackOfficeBundle/Resources/public/css/back-office.css'
+                'bundles/BackOffice/css/back-office.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -56,8 +56,8 @@
         {% block javascripts %}
 
             {% javascripts filter='?yui_js'
-                '@EfcCmsBundle/Resources/public/js/libs/jquery2.0.3.min.js'
-                '@EfcBackOfficeBundle/Resources/public/js/back-office.js'
+                'bundles/Cms/js/libs/jquery2.0.3.min.js'
+                'bundles/BackOffice/js/back-office.js'
             %}
 
             <script src="{{ asset_url }}"></script>
