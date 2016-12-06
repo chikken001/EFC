@@ -100,6 +100,12 @@ fos_user:
 assetic:
   debug: "%kernel.debug%"
   use_controller: false
-  bundles: [ EfcMainBundle, EfcBackOfficeBundle, EfcCmsBundle ]
+  bundles: [ EfcBackOfficeBundle, EfcCmsBundle ]
   filters:
-    cssrewrite: ~
+      cssrewrite: ~
+      yui_css:
+          jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+      yui_js:
+          jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+      cssembed:
+          jar: "%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar"

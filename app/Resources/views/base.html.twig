@@ -6,8 +6,8 @@
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
         {% block stylesheets %}
-            {% stylesheets filter='cssrewrite'
-            '@EfcCmsBundle/Resources/public/css/style.css'
+            {% stylesheets filter='?cssembed,cssrewrite,?yui_css'
+                '@EfcCmsBundle/Resources/public/css/style.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -55,11 +55,12 @@
 
         {% block javascripts %}
 
-            {% javascripts
-            '@EfcCmsBundle/Resources/public/js/libs/jquery2.0.3.min.js'
-            '@EfcCmsBundle/Resources/public/js/offnav.js'
+            {% javascripts filter='?yui_js'
+                '@EfcCmsBundle/Resources/public/js/libs/jquery2.0.3.min.js'
+                '@EfcCmsBundle/Resources/public/js/offnav.js'
             %}
-            <script src="{{ asset_url }}"></script>
+                <script src="{{ asset_url }}"></script>
+
             {% endjavascripts %}
         {% endblock %}
 

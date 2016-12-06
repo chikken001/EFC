@@ -671,7 +671,7 @@ span {
 
 /*éléments accueil, 0.25*/
 #main-landing-element {
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url(tdpmstdpdum-ken-lawrence_2.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url(../img/tdpmstdpdum-ken-lawrence_2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -905,9 +905,6 @@ span {
   height: auto;
   /*background-color: #1e3249;*/
   background-color : #B94550;
-  /*background-image: url(download.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;*/
   padding-top: 7rem;
   padding-bottom: 7rem;
   /*margin-top: 1rem;*/
@@ -1075,7 +1072,7 @@ ul li .check::before {
 }
 
 input[type=radio]:checked ~ .check {
-  border: 0px solid #d33a48;
+  border: 0 solid #d33a48;
 }
 
 input[type=radio]:checked ~ .check::before{
@@ -1607,7 +1604,7 @@ input[type=radio]:checked ~ label{
 
 .underlayer {
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
-                    url(renew.jpg);
+                    url(../img/renew.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   /*background-size: 63%, 37%;
@@ -1627,7 +1624,7 @@ input[type=radio]:checked ~ label{
 
 #underlayer-bis {
   width: 100%;
-  background: linear-gradient(rgba(5, 10, 150, 0), rgba(5, 10, 150, 0)), url(elio.jpg);
+  background: linear-gradient(rgba(5, 10, 150, 0), rgba(5, 10, 150, 0)), url(../img/eol.jpg);
   background-position: right bottom;
   background-repeat: no-repeat;
   background-size: cover;
@@ -2225,8 +2222,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'norwesterregular';
-    src: url('norwester-webfont.woff2') format('woff2'),
-         url('norwester-webfont.woff') format('woff');
+    src: url('/fonts/norwester-webfont.woff2') format('woff2'),
+         url('/fonts/norwester-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2237,8 +2234,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'kollektifregular';
-    src: url('kollektif-webfont.woff2') format('woff2'),
-         url('kollektif-webfont.woff') format('woff');
+    src: url('/fonts/kollektif-webfont.woff2') format('woff2'),
+         url('/fonts/kollektif-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2249,8 +2246,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'kollektifbold';
-    src: url('kollektif-bold-webfont.woff2') format('woff2'),
-         url('kollektif-bold-webfont.woff') format('woff');
+    src: url('/fonts/kollektif-bold-webfont.woff2') format('woff2'),
+         url('/fonts/kollektif-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2261,8 +2258,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'kollektifbold_italic';
-    src: url('kollektif-bolditalic-webfont.woff2') format('woff2'),
-         url('kollektif-bolditalic-webfont.woff') format('woff');
+    src: url('/fonts/kollektif-bolditalic-webfont.woff2') format('woff2'),
+         url('/fonts/kollektif-bolditalic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2273,8 +2270,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'kollektifitalic';
-    src: url('kollektif-italic-webfont.woff2') format('woff2'),
-         url('kollektif-italic-webfont.woff') format('woff');
+    src: url('/fonts/kollektif-italic-webfont.woff2') format('woff2'),
+         url('/fonts/kollektif-italic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2285,8 +2282,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webblack';
-    src: url('titilliumweb-black-webfont.woff2') format('woff2'),
-         url('titilliumweb-black-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-black-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-black-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2297,8 +2294,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webbold';
-    src: url('titilliumweb-bold-webfont.woff2') format('woff2'),
-         url('titilliumweb-bold-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-bold-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2309,8 +2306,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webbold_italic';
-    src: url('titilliumweb-bolditalic-webfont.woff2') format('woff2'),
-         url('titilliumweb-bolditalic-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-bolditalic-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-bolditalic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2321,8 +2318,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webthin';
-    src: url('titilliumweb-extralight-webfont.woff2') format('woff2'),
-         url('titilliumweb-extralight-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-extralight-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-extralight-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2333,8 +2330,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webthin_italic';
-    src: url('titilliumweb-extralightitalic-webfont.woff2') format('woff2'),
-         url('titilliumweb-extralightitalic-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-extralightitalic-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-extralightitalic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2345,8 +2342,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_webitalic';
-    src: url('titilliumweb-italic-webfont.woff2') format('woff2'),
-         url('titilliumweb-italic-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-italic-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-italic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -2357,8 +2354,8 @@ input[type=radio]:checked ~ label{
 
 @font-face {
     font-family: 'titillium_weblight';
-    src: url('titilliumweb-light-webfont.woff2') format('woff2'),
-         url('titilliumweb-light-webfont.woff') format('woff');
+    src: url('/fonts/titilliumweb-light-webfont.woff2') format('woff2'),
+         url('/fonts/titilliumweb-light-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
