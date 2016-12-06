@@ -1,0 +1,79 @@
+{% extends 'EfcCmsBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <div class="wrapper">
+
+        <div class="main-center-elements">
+            
+            <div id="block-article">
+                <p><em>.03 -</em><em>activités</em></p>
+                <h5>publications d'Environnement France Chine</h5>
+                <div class="line"></div>
+            </div>
+            
+            <div class="article-main-image"></div>
+
+            <div class="article-center-elements">
+
+                <div id="liste-container-bis">
+
+                    <div id="box-item-article">
+
+                        <div class="item-article" id="article-supreme">
+                            <img src="{{ asset('uploads/articles/photos/COP21_1.jpg') }}">
+                            <p><em>conférence</em></p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 1 }) }}">L’avenir de l’auto-partage dans les grandes villes</a></h2>
+                        </div>
+
+                        <div class="item-article">
+                            <img src="{{ asset('uploads/articles/photos/atelier1_small.jpg') }}">
+                            <p><em>atelier</em></p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 2 }) }}">Atelier franco-chinois de droit de l'environnement : Comment gérer une crise environnementale ?</a></h2>
+                        </div>
+
+                        <div class="item-article">
+                            <img src="{{ asset('uploads/articles/photos/CCCP1.jpg') }}">
+                            <p><em>conférence</em></p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 3 }) }}">Biodiversite et grands projets d’amenagement en France et en Chine</a></h2>
+                        </div>
+
+                        <div class="item-article">
+                            <img src="{{ asset('uploads/articles/photos/ymea3.jpg') }}">
+                            <p><em>atelier</em></p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 4 }) }}">rencontre avec la Yunnan Municipal Engineering Association</a></h2>
+                        </div>
+
+                        <div class="item-article" id="item-dossier">
+                            <p><em>évènement annuel</em> - 28.01 2016</p>
+                            <h2><a href="/www/web/uploads/articles/documents/Convocation_AG_2015.pdf">Invitation à l'Assemblée Générale Ordinaire d'Environnement France Chine</a></h2>
+                        </div>
+
+                        <div class="item-article" id="item-dossier">
+
+                            <p><em>conférence</em> - 12.03 2012</p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 5 }) }}">6e forum mondial de l'eau à Marseille</a></h2>
+                        </div>
+
+                        <div class="item-article" id="item-dossier">
+
+                            <p><em>conférence </em> - 01.12 2014</p>
+                            <h2><a href="{{ path('efc_cms_show_article', { 'id': 6 }) }}">Conference annuelle a Chengdu sur le droit de l'environnement</a></h2>
+                        </div>
+
+                        <div class="item-article" id="item-dossier">
+                            <p><em>dossier</em></p>
+                            <h2><a href="/www/web/uploads/articles/documents/008.pdf">Comparaison du système législatif de la gestion de l’Eau</a></h2>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

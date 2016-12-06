@@ -1,3 +1,34 @@
+# DEFAULT
+
 efc_cms_homepage:
     path:     /
     defaults: { _controller: EfcCmsBundle:Default:index }
+    methods: [GET]
+
+# ARTICLE
+
+efc_cms_liste_article:
+    path:     /articles
+    defaults: { _controller: EfcCmsBundle:Article:liste }
+    methods: [GET]
+
+efc_cms_show_article:
+    path:     /article/{id}
+    defaults: { _controller: EfcCmsBundle:Article:show }
+    methods: [GET]
+    requirements:
+        id: "\d+"
+
+# EQUIPE
+
+efc_cms_equipe_index:
+    path:     /team
+    defaults: { _controller: EfcCmsBundle:Equipe:index }
+    methods: [GET]
+
+# Contact
+
+efc_cms_contact_index:
+    path:     /contact
+    defaults: { _controller: EfcCmsBundle:Contact:index }
+    methods: [GET]

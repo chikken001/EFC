@@ -18,10 +18,10 @@
                 <span></span>
             </div>
             <ul id="menu">
-                <a href=""> <li>accueil</li></a>
-                <a href=""> <li>articles</li></a>
-                <a href=""> <li>equipe</li></a>
-                <a href=""> <li>contact</li></a>
+                <a href="{{ path('efc_cms_homepage') }}"> <li>accueil</li></a>
+                <a href="{{ path('efc_cms_liste_article') }}"> <li>articles</li></a>
+                <a href="{{ path('efc_cms_equipe_index') }}"> <li>equipe</li></a>
+                <a href="{{ path('efc_cms_contact_index') }}"> <li>contact</li></a>
             </ul>
         </a>
     </header>
@@ -35,15 +35,14 @@
 
             <div class="footitem">
                 <ul class="social-icons">
-                    <li><img src="{{ asset('img/logo/Untitled-2.svg') }}"/></li>
-                    <li><img src="{{ asset('img/logo/Untitled-1.svg') }}"/></li>
-                    <li><img src="{{ asset('img/logo/Untitled-3.svg') }}"/></li>
+                    <li><img src="{{ asset('img/logos/Untitled-2.svg') }}"/></li>
+                    <li><img src="{{ asset('img/logos/Untitled-1.svg') }}"/></li>
+                    <li><img src="{{ asset('img/logos/Untitled-3.svg') }}"/></li>
                 </ul>
 
             </div>
 
             <div class="footitem">
-
                 <h2>l'association</h2>
                 <p>194, rue de Rivoli - 75001 PARIS<br/> +33(1) 44 18 60 30</p>
                 <p>contact@environnement-france-chine.org</p>

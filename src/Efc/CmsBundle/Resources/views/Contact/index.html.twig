@@ -1,0 +1,69 @@
+{% extends 'EfcCmsBundle::layout.html.twig' %}
+
+{% block content %}
+
+    <div class="wrapper">
+        <div class="main-center-elements">
+
+            <div id="block-article">
+                <p><em>.04 -</em><em>contact</em></p>
+                <h5>nos coordonnees</h5>
+                <h4><em>> Environnement France Chine</em></br>
+                    <em>> 194, rue de Rivoli</br>
+                        75001 PARIS</em></br>
+                    Association loi 1901</br>
+                    <em><a href="mailto:contact@environnement-france-chine.org"> contact@environnement-france-chine.org</a></em>
+                </h4>
+            </div>
+
+            <div class="article-main-image">
+                <img src="{{ asset('img/ncosfvwg-gu-tom-eversley_2.jpg') }}">
+            </div>
+
+            <div class="article-center-elements">
+                <article class="mini-prez-1">
+
+                    <h5>formulaire</h5>
+
+                    <form id="contactor" action="submit.php" method="post">
+                        <h2>identité</h2>
+                        <input type="text" name="name" placeholder="Nom">
+                        <input type="text" name="surname" placeholder="Prénom">
+                        <input type="email" name="email" placeholder="Your@mail.com">
+                        <input type="text" name="society" placeholder="Société">
+                        <p class="antispam">Leave this empty: <input type="text" name="url" /></p>
+                        <h2>message</h2>
+
+                        <div class="radio-container">
+                            <ul>
+                                <li>
+                                    <input type="radio" id="f-option" name="selector">
+                                    <label for="f-option">Adhésion</label>
+                                    <div class="check"></div>
+                                </li>
+
+                                <li>
+                                    <input type="radio" id="s-option" name="selector">
+                                    <label for="s-option">Evènement EFC</label>
+                                    <div class="check"><div class="inside"></div></div>
+                                </li>
+
+                                <li>
+                                    <input type="radio" id="t-option" name="selector">
+                                    <label for="t-option">Divers</label>
+                                    <div class="check"><div class="inside"></div></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <textarea name="commentaire" placeholder="C'est à vous"></textarea>
+                        <input type="submit" value="envoyer - >">
+                    </form>
+
+                </article>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
