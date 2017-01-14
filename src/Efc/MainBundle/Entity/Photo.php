@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Document
+ * Photo
  *
- * @ORM\Table(name="document")
- * @ORM\Entity(repositoryClass="Efc\MainBundle\Repository\DocumentRepository")
+ * @ORM\Table(name="photo")
+ * @ORM\Entity(repositoryClass="Efc\MainBundle\Repository\PhotoRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Document
+class Photo
 {
     /**
      * @var int
@@ -25,34 +25,10 @@ class Document
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\Article", inversedBy="documents", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\Article", inversedBy="photos", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255, nullable=false)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="titre est invalide."
-     * )
-     */
-    private $titre;
-
-    /**
-     * @var text
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="description est invalide."
-     * )
-     */
-    private $description;
 
     /**
      * @var string
@@ -106,46 +82,6 @@ class Document
     }
 
     /**
-     * @return string
-     */
-    public function getTitre()
-    {
-        return $this->titre;
-    }
-
-    /**
-     * @param string $titre
-     *
-     * @return Document
-     */
-    public function setTitre($titre)
-    {
-        $this->titre = $titre;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     *
-     * @return Document
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
      * @return Article
      */
     public function getArticle()
@@ -156,7 +92,7 @@ class Document
     /**
      * @param Article $article
      *
-     * @return Document
+     * @return Photo
      */
     public function setArticle($article)
     {
@@ -170,7 +106,7 @@ class Document
      *
      * @param string $filename
      *
-     * @return Document
+     * @return Photo
      */
     public function setFilename($filename)
     {
@@ -194,7 +130,7 @@ class Document
      *
      * @param string $filetype
      *
-     * @return Document
+     * @return Photo
      */
     public function setFiletype($filetype)
     {

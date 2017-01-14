@@ -23,6 +23,8 @@ class Article
     {
         $this->isPublished = false ;
         $this->date_creation = new \DateTime() ;
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -139,6 +141,14 @@ class Article
     protected $auteur;
 
     /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\Type", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
+    /**
      * @var Datetime
      *
      * @ORM\Column(name="date_creation", type="datetime", nullable=false)
@@ -162,6 +172,13 @@ class Article
      * @var type
      */
     protected $documents;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Efc\MainBundle\Entity\Photo", mappedBy="article", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @var type
+     */
+    protected $photos;
 
     // Photo principale
 
@@ -275,6 +292,26 @@ class Article
     public function setAuteur(User $auteur)
     {
         $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    /**
+     * @return Type $type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param Type $type
+     *
+     * @return Article
+     */
+    public function setType(Type $type)
+    {
+        $this->type = $type;
 
         return $this;
     }
@@ -474,7 +511,46 @@ class Article
 
         foreach ($documents as $document)
         {
-            $document->setCentre($this);
+            $document->setArticle($this);
+        }
+    }
+
+    /**
+     * @param Photo $photo
+     */
+    public function removePhoto(Photo $photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
+    /**
+     * @param Photo $photo
+     */
+    public function addPhoto(Photo $photo)
+    {
+        $photo->setCentre($this);
+
+        $this->photos->add($photo);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * @param ArrayCollection $photos
+     */
+    public function setPhotos(\Doctrine\Common\Collections\ArrayCollection $photos)
+    {
+        $this->photos = $photos;
+
+        foreach ($photos as $photo)
+        {
+            $photo->setArticle($this);
         }
     }
 
