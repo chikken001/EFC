@@ -207,7 +207,7 @@ class Article
     private $type_photo_principale;
 
     /**
-     * @var
+     * @var File
      * @Assert\File(
      *     maxSize = "2M",
      *     mimeTypes = {"image/jpeg","image/png","image/jpg","image/gif"},
