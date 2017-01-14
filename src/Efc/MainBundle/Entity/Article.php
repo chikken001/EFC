@@ -49,14 +49,14 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="sous_titre", type="string", length=255, nullable=true)
+     * @ORM\Column(name="introduction", type="string", length=255, nullable=true)
      *
      * @Assert\Type(
      *     type="string",
-     *     message="sous_titre est invalide."
+     *     message="introduction est invalide."
      * )
      */
-    private $sous_titre;
+    private $introduction;
 
     /**
      * @var string
@@ -147,6 +147,22 @@ class Article
      */
     protected $date_creation;
 
+    /**
+     * @var Datetime
+     *
+     * @ORM\Column(name="date_evenement", type="datetime", nullable=false)
+     *
+     * @Assert\DateTime()
+     */
+    protected $date_evenement;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Efc\MainBundle\Entity\Document", mappedBy="article", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @var type
+     */
+    protected $documents;
+
     // Photo principale
 
     /**
@@ -189,31 +205,31 @@ class Article
      */
     private $temp_photo_principale;
 
-    // Photo 1
+    // Photo
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_photo1", type="string", length=255, nullable=true)
+     * @ORM\Column(name="nom_photo", type="string", length=255, nullable=true)
      *
      * @Assert\Type(
      *     type="string",
-     *     message="nom_photo1 est invalide."
+     *     message="nom_photo est invalide."
      * )
      */
-    private $nom_photo1;
+    private $nom_photo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="type_photo1", type="string", length=255, nullable=true)
+     * @ORM\Column(name="type_photo", type="string", length=255, nullable=true)
      *
      * @Assert\Type(
      *     type="string",
-     *     message="type_photo1 est invalide."
+     *     message="type_photo est invalide."
      * )
      */
-    private $type_photo1;
+    private $type_photo;
 
     /**
      * @var
@@ -224,94 +240,13 @@ class Article
      *     maxSizeMessage = "Fichier trop volumineux"
      * )
      */
-    private $fichier_photo1;
+    private $fichier_photo;
 
     /**
      * @var
      */
-    private $temp_photo1;
+    private $temp_photo;
 
-    // Photo 2
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom_photo2", type="string", length=255, nullable=true)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="nom_photo2 est invalide."
-     * )
-     */
-    private $nom_photo2;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type_photo2", type="string", length=255, nullable=true)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="type_photo2 est invalide."
-     * )
-     */
-    private $type_photo2;
-
-    /**
-     * @var
-     * @Assert\File(
-     *     maxSize = "2M",
-     *     mimeTypes = {"image/jpeg","image/png","image/jpg","image/gif"},
-     *     mimeTypesMessage = "Veuillez utiliser une image valide (.jpeg .png .jpg .gif)",
-     *     maxSizeMessage = "Fichier trop volumineux"
-     * )
-     */
-    private $fichier_photo2;
-
-    /**
-     * @var
-     */
-    private $temp_photo2;
-
-    // Document
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom_document", type="string", length=255, nullable=true)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="nom_fichier est invalide."
-     * )
-     */
-    private $nom_document;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type_document", type="string", length=255, nullable=true)
-     *
-     * @Assert\Type(
-     *     type="string",
-     *     message="type_document est invalide."
-     * )
-     */
-    private $type_document;
-
-    /**
-     * @var
-     * @Assert\File(
-     *     maxSize = "2M",
-     *     maxSizeMessage = "Fichier trop volumineux"
-     * )
-     */
-    private $fichier_document;
-
-    /**
-     * @var
-     */
-    private $temp_document;
 
 
     /**
@@ -367,19 +302,19 @@ class Article
     /**
      * @return string
      */
-    public function getSousTitre()
+    public function getIntroduction()
     {
-        return $this->titre;
+        return $this->introduction;
     }
 
     /**
-     * @param string $sous_titre
+     * @param string $introduction
      *
      * @return Article
      */
-    public function setSousTitre($sous_titre)
+    public function setIntroduction($introduction)
     {
-        $this->sous_titre = $sous_titre;
+        $this->introduction = $introduction;
 
         return $this;
     }
@@ -504,6 +439,45 @@ class Article
         return $this;
     }
 
+    /**
+     * @param Document $document
+     */
+    public function removeDocument(Document $document)
+    {
+        $this->documents->removeElement($document);
+    }
+
+    /**
+     * @param Document $document
+     */
+    public function addDocument(Document $document)
+    {
+        $document->setCentre($this);
+
+        $this->documents->add($document);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param ArrayCollection $documents
+     */
+    public function setDocuments(\Doctrine\Common\Collections\ArrayCollection $documents)
+    {
+        $this->documents = $documents;
+
+        foreach ($documents as $document)
+        {
+            $document->setCentre($this);
+        }
+    }
+
     // Photo principale
 
     /**
@@ -568,7 +542,7 @@ class Article
         if (!empty($this->fichier_photo_principale))
         {
             // On sauvegarde l'extension du fichier pour le supprimer plus tard
-            $this->temp_photo_principale = $this->fichier_photo_principale.'.'.$this->type_photo_principale;
+            $this->temp_photo_principale = $this->nom_photo_principale.'.'.$this->type_photo_principale;
 
             // On réinitialise les valeurs des attributs url et alt
             $this->type_photo_principale = null;
@@ -586,249 +560,87 @@ class Article
         return $this->fichier_photo_principale;
     }
 
-    // Photo 1
+    // Photo
 
     /**
-     * Set nomPhoto1
+     * Set nomPhoto
      *
      * @param string $filename
      *
      * @return Article
      */
-    public function SetNomPhoto1($filename)
+    public function SetNomPhoto($filename)
     {
-        $this->nom_photo1 = $filename;
+        $this->nom_photo = $filename;
 
         return $this;
     }
 
     /**
-     * Get nomPhoto1
+     * Get nomPhoto
      *
      * @return string
      */
-    public function getNomPhoto1()
+    public function getNomPhoto()
     {
-        return $this->nom_photo1;
+        return $this->nom_photo;
     }
 
     /**
-     * Set typePhoto1
+     * Set typePhoto
      *
      * @param string $filetype
      *
      * @return Article
      */
-    public function setTypePhoto1($filetype)
+    public function setTypePhoto($filetype)
     {
-        $this->type_photo1 = $filetype;
+        $this->type_photo = $filetype;
 
         return $this;
     }
 
     /**
-     * Get typePhoto1
+     * Get typePhoto
      *
      * @return string
      */
-    public function getTypePhoto1()
+    public function getTypePhoto()
     {
-        return $this->type_photo1;
+        return $this->type_photo;
     }
 
     /**
-     * Set fichierPhoto1
+     * Set fichierPhoto
      *
      * @param $file
      * @return Article
      */
-    public function setFichierPhoto1(UploadedFile $file)
+    public function setFichierPhoto(UploadedFile $file)
     {
-        $this->fichier_photo1 = $file;
+        $this->fichier_photo = $file;
 
         // On vérifie si on avait déjà un fichier pour cette entité
-        if (!empty($this->fichier_photo1))
+        if (!empty($this->fichier_photo))
         {
             // On sauvegarde l'extension du fichier pour le supprimer plus tard
-            $this->temp_photo1 = $this->fichier_photo1.'.'.$this->type_photo1;
+            $this->temp_photo = $this->nom_photo.'.'.$this->type_photo;
 
             // On réinitialise les valeurs des attributs url et alt
-            $this->type_photo1 = null;
-            $this->nom_photo1 = null;
+            $this->type_photo = null;
+            $this->nom_photo = null;
         }
     }
 
     /**
-     * Get fichierPhoto1
+     * Get fichierPhoto
      *
      * @return mixed
      */
-    public function getFichierPhoto1()
+    public function getFichierPhoto()
     {
-        return $this->fichier_photo1;
+        return $this->fichier_photo;
     }
-
-    // Photo 2
-
-    /**
-     * Set nomPhoto2
-     *
-     * @param string $filename
-     *
-     * @return Article
-     */
-    public function SetNomPhoto2($filename)
-    {
-        $this->nom_photo2 = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Get nomPhoto2
-     *
-     * @return string
-     */
-    public function getNomPhoto2()
-    {
-        return $this->nom_photo2;
-    }
-
-    /**
-     * Set typePhoto2
-     *
-     * @param string $filetype
-     *
-     * @return Article
-     */
-    public function setTypePhoto2($filetype)
-    {
-        $this->type_photo2 = $filetype;
-
-        return $this;
-    }
-
-    /**
-     * Get typePhoto2
-     *
-     * @return string
-     */
-    public function getTypePhoto2()
-    {
-        return $this->type_photo2;
-    }
-
-    /**
-     * Set fichierPhoto2
-     *
-     * @param $file
-     * @return Article
-     */
-    public function setFichierPhoto2(UploadedFile $file)
-    {
-        $this->fichier_photo2 = $file;
-
-        // On vérifie si on avait déjà un fichier pour cette entité
-        if (!empty($this->fichier_photo2))
-        {
-            // On sauvegarde l'extension du fichier pour le supprimer plus tard
-            $this->temp_photo2 = $this->fichier_photo2.'.'.$this->type_photo2;
-
-            // On réinitialise les valeurs des attributs url et alt
-            $this->type_photo2 = null;
-            $this->nom_photo2 = null;
-        }
-    }
-
-    /**
-     * Get fichierPhoto2
-     *
-     * @return mixed
-     */
-    public function getFichierPhoto2()
-    {
-        return $this->fichier_photo2;
-    }
-
-    // Document
-
-    /**
-     * Set nomDocument
-     *
-     * @param string $filename
-     *
-     * @return Article
-     */
-    public function SetNomDocument($filename)
-    {
-        $this->nom_document = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Get nomDocument
-     *
-     * @return string
-     */
-    public function getNomDocument()
-    {
-        return $this->nom_document;
-    }
-
-    /**
-     * Set typeDocument
-     *
-     * @param string $filetype
-     *
-     * @return Article
-     */
-    public function setTypeDocument($filetype)
-    {
-        $this->type_document = $filetype;
-
-        return $this;
-    }
-
-    /**
-     * Get typeDocument
-     *
-     * @return string
-     */
-    public function getTypeDocument()
-    {
-        return $this->type_document;
-    }
-
-    /**
-     * Set fichierDocument
-     *
-     * @param $file
-     * @return Article
-     */
-    public function setFichierDocument(UploadedFile $file)
-    {
-        $this->fichier_document = $file;
-
-        // On vérifie si on avait déjà un fichier pour cette entité
-        if (!empty($this->fichier_document))
-        {
-            $this->temp_document = $this->fichier_document.'.'.$this->type_document;
-            $this->type_document = null;
-            $this->nom_document = null;
-        }
-    }
-
-    /**
-     * Get fichierDocument
-     *
-     * @return mixed
-     */
-    public function getFichierDocument()
-    {
-        return $this->fichier_document;
-    }
-
 
     /**
      * @ORM\PrePersist()
@@ -836,7 +648,7 @@ class Article
      */
     public function preUpload()
     {
-        $fichiers = array('photo_principale', 'photo1', 'photo2', 'document') ;
+        $fichiers = array('photo_principale', 'photo') ;
 
         foreach($fichiers as $fichier)
         {
@@ -861,7 +673,7 @@ class Article
      */
     public function upload()
     {
-        $fichiers = array('photo_principale', 'photo1', 'photo2', 'document') ;
+        $fichiers = array('photo_principale', 'photo') ;
 
         foreach($fichiers as $fichier)
         {
