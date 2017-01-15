@@ -1,0 +1,32 @@
+{% extends "EfcBackOfficeBundle::layout.html.twig" %}
+
+{% block title %}Modifier {{ article.titre }} - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+    <div class="article-edit">
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('efc_back_office_homepage') }}">Accueil</a>
+            </li>
+            <li>
+                <a href="{{ path('efc_back_office_article_index') }}">Centres</a>
+            </li>
+        </ol>
+
+        <div class="row">
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#general">Informations génerales</a></li>
+            </ul>
+            
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

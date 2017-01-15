@@ -18,21 +18,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
-        main:
-            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
         
         # login area for backoffice users
         backoffice:
             context: primary_auth
-            pattern:            ^/backoffice
+            pattern:            ^/admin
             form_login:
                 provider:       fos_userbundle
                 login_path:     efc_back_office_security_login
@@ -43,10 +33,10 @@ security:
                 default_target_path: efc_back_office_homepage
             logout:
                 path: efc_back_office_security_logout
-                target: efc_cms_bundle_homepage
+                target: efc_cms_homepage
             anonymous:    true
 
     access_control:
             # back-office
-            - { path: ^/backoffice/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/backoffice, roles: ROLE_ADMIN }
+            - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/admin, roles: ROLE_ADMIN }

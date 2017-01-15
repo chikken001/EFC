@@ -8,6 +8,8 @@
         {% block stylesheets %}
             {% stylesheets filter='?cssembed,cssrewrite,?yui_css'
                 'bundles/BackOffice/css/back-office.css'
+                'bundles/BackOffice/css/libs/bootstrap-theme.min.css'
+                'bundles/BackOffice/css/libs/bootstrap.min.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -21,43 +23,51 @@
 
     <body>
 
-        {% block header %}{% endblock %}
+    <div class="container">
+        <div class="container-fluid">
 
-        {% block flash %}
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-                <div class="alert alert-success">
-                    <strong>Success !</strong> {{ flashMessage }}
-                </div>
-            {% endfor %}
+            {% block header %}{% endblock %}
 
-            {% for flashMessage in app.session.flashbag.get('error') %}
-                <div class="alert alert-danger">
-                    <strong>Erreur !</strong> {{ flashMessage }}
-                </div>
-            {% endfor %}
+            {% block flash %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success">
+                        <strong>Success !</strong> {{ flashMessage }}
+                    </div>
+                {% endfor %}
 
-            {% for flashMessage in app.session.flashbag.get('info') %}
-                <div class="alert alert-info">
-                    <strong>Info !</strong> {{ flashMessage }}
-                </div>
-            {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger">
+                        <strong>Erreur !</strong> {{ flashMessage }}
+                    </div>
+                {% endfor %}
 
-            {% for flashMessage in app.session.flashbag.get('warning') %}
-                <div class="alert alert-warning">
-                    <strong>Warning !</strong> {{ flashMessage }}
-                </div>
-            {% endfor %}
-        {% endblock %}
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="alert alert-info">
+                        <strong>Info !</strong> {{ flashMessage }}
+                    </div>
+                {% endfor %}
 
-        {% block content %}{% endblock %}
+                {% for flashMessage in app.session.flashbag.get('warning') %}
+                    <div class="alert alert-warning">
+                        <strong>Warning !</strong> {{ flashMessage }}
+                    </div>
+                {% endfor %}
+            {% endblock %}
 
-        {% block footer %}{% endblock %}
+            {% block content %}{% endblock %}
+
+            {% block footer %}{% endblock %}
+
+        </div>
+    </div>
 
         {% block javascripts %}
 
             {% javascripts filter='?yui_js'
                 'bundles/Cms/js/libs/jquery2.0.3.min.js'
                 'bundles/BackOffice/js/back-office.js'
+                'bundles/BackOffice/js/libs/bootstrap.min.js'
+                'bundles/BackOffice/js/libs/jquery.dataTables.min.js'
             %}
 
             <script src="{{ asset_url }}"></script>

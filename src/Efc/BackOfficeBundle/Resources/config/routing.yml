@@ -1,19 +1,51 @@
 # SECURITY
-avea_patrimoine_back_office_security_login:
+efc_back_office_security_login:
     path:     /login
     defaults: { _controller: EfcBackOfficeBundle:Security:login }
 
-avea_patrimoine_back_office_security_check:
+efc_back_office_security_check:
     path:     /login-check
     defaults: { _controller: EfcBackOfficeBundle:Security:check }
     requirements:
         _method: POST
 
-avea_patrimoine_back_office_security_logout:
+efc_back_office_security_logout:
     path:     /logout
     defaults: { _controller: EfcBackOfficeBundle:Security:logout }
 
-# BACKOFFICE
+# BACKOFFICE HOME
 efc_back_office_homepage:
     path:     /
-    defaults: { _controller: EfcBackOfficeBundle:Default:index }
+    defaults: { _controller: EfcBackOfficeBundle:Article:index }
+    
+# Article
+efc_back_office_article_index:
+    path:     /article
+    defaults: { _controller: EfcBackOfficeBundle:Article:index }
+    methods: [GET]
+
+efc_back_office_article_view:
+    path: /voir-article/{id}
+    defaults: { _controller: EfcBackOfficeBundle:Article:view }
+    methods: [GET]
+    requirements:
+        id: "\d+"
+
+efc_back_office_article_create:
+    path: /creer-article
+    defaults: { _controller: EfcBackOfficeBundle:Article:create }
+    methods: [GET, POST]
+
+efc_back_office_article_edit:
+    path: /editer-article/{id}
+    defaults: { _controller: EfcBackOfficeBundle:Article:edit }
+    methods: [GET, POST]
+    requirements:
+        id: "\d+"
+
+efc_back_office_article_delete:
+    path: /supprimer-article/{id}
+    defaults: { _controller: EfcBackOfficeBundle:Article:delete }
+    methods: [GET, POST]
+    requirements:
+        id: "\d+"
