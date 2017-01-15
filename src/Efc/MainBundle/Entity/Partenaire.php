@@ -20,7 +20,7 @@ class Partenaire
     /**
      * @var int
      *
-     * @ORM\Column(name="id", partenaire="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -31,8 +31,8 @@ class Partenaire
      *
      * @ORM\Column(name="nom", partenaire="string", length=255, nullable=false)
      *
-     * @Assert\Partenaire(
-     *     partenaire="string",
+     * @Assert\Type(
+     *     type="string",
      *     message="nom est invalide."
      * )
      */
