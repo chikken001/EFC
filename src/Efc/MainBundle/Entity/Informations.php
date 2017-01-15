@@ -65,7 +65,7 @@ class Informations
     /**
      * @var string
      *
-     * @ORM\Column(name="ville", type="string", length=255, nullable=true)
+     * @ORM\Column(name="code_postal", type="string", length=20, nullable=true)
      *
      * @Assert\Type(
      *     type="string",

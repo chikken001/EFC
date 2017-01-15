@@ -133,10 +133,14 @@ class Article
     private $isPublished;
 
     /**
-     * @var User
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\User", cascade="persist")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="auteur", type="string", length=100, nullable=false)
+     *
+     * @Assert\Type(
+     *     type="string",
+     *     message="auteur est invalide."
+     * )
      */
     protected $auteur;
 

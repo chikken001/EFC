@@ -29,7 +29,7 @@ class Partenaire
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", partenaire="string", length=255, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
      *
      * @Assert\Type(
      *     type="string",

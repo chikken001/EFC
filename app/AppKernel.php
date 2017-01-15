@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Efc\MainBundle\EfcMainBundle(),
             new Efc\BackOfficeBundle\EfcBackOfficeBundle(),
             new Efc\FrontOfficeBundle\EfcFrontOfficeBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Efc\CmsBundle\EfcCmsBundle(),
         );
 
