@@ -1,0 +1,149 @@
+{% extends "EfcBackOfficeBundle::layout.html.twig" %}
+
+{% block title %}Types d'articles{% endblock %}
+
+{% block content %}
+
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('efc_back_office_homepage') }}">Article</a>
+        </li>
+        <li>
+            <a href="{{ path('efc_back_office_type_liste') }}">Types d'articles</a>
+        </li>
+    </ol>
+
+    <div class="alert alert-danger fade in" id="alert-type" style="display:none;">
+        <button type="button" class="close">×</button>
+        <p></p>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="container-fluid table-type">
+                <div class="table-responsive col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+
+                    <table class="table table-striped">
+
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control" name="nom" id="nom"/>
+                                </td>
+                                <td class="text-center">
+                                    <span id="submit-row" class="btn btn-primary">Ajouter</span>
+                                </td>
+                            </tr>
+                            {% for type in types %}
+                                <tr>
+                                    <td class="text-center">{{ type.nom }}</td>
+                                    <td class="text-center">
+                                        <span class="btn btn-xs btn-danger remove-row" data-type-id="{{ type.id }}">Supprimer</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function()
+        {
+            $('#alert-type .close').on('click', function(e) {
+                $(this).parent().hide();
+            });
+
+            $('#submit-row').on('click', function()
+            {
+                $('#alert-type').hide();
+
+                var type = {};
+
+                type.nom = $('#nom').val();
+
+                $.ajax({
+                    url: "{{ path('efc_back_office_type_add') }}",
+                    method: 'post',
+                    data: {type: type},
+                    dataTypes: 'json',
+                    success: function(data)
+                    {
+                        if(data['message'] == 'ok')
+                        {
+                            $('#nom').val('') ;
+                            $('tbody').append('<tr><td class="text-center">'+data['nom']+'</td><td class="text-center"><span class="btn btn-xs btn-danger remove-row" data-type-id="'+data['id']+'">Supprimer</span></td></tr>');
+
+                            $('tbody tr:last-child td:last-child span').on('click', function(event) {
+                                remove_type(this);
+                            });
+                        }
+                        else
+                        {
+                            $('#alert-type p').text(data['message']) ;
+                            $('#alert-type').show();
+                        }
+                    },
+                    error: function(error){
+                        $('#alert-type p').text('Une erreur est survenue') ;
+                        $('#alert-type').show();
+                    },
+                });
+
+            });
+
+            $('.remove-row').on('click', function(event) {
+                remove_type(this);
+            });
+        });
+
+        function remove_type($supprimer)
+        {
+            if (confirm("Voulez vous vraimment supprimer ce type d'article ?") == false) return false;
+
+            var id_type = $($supprimer).attr('data-type-id');
+
+            $.ajax({
+                url: "{{ path('efc_back_office_type_remove') }}",
+                method: 'post',
+                data: {id: id_type},
+                dataTypes: 'json',
+                success: function(data)
+                {
+                    if(data['message'] == 'ok')
+                    {
+                        $($supprimer).parent().parent().remove();
+                    }
+                    else
+                    {
+                        $('#alert-type p').text(data['message']) ;
+                        $('#alert-type').show();
+                    }
+                },
+                error: function(error){
+                    $('#alert-type p').text('Une erreur est survenue') ;
+                    $('#alert-type').show();
+                },
+            });
+        }
+
+    </script>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace AveaPatrimoine\MainBundle\DataFixtures\ORM;
+namespace Efc\MainBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;

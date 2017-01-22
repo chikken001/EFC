@@ -49,3 +49,20 @@ efc_back_office_article_delete:
     methods: [GET, POST]
     requirements:
         id: "\d+"
+        
+# Type
+
+efc_back_office_type_liste:
+    path:     /type_article/liste
+    defaults: { _controller: EfcBackOfficeBundle:Type:liste }
+    methods: [GET]
+
+efc_back_office_type_add:
+    path: /type_article/add
+    defaults: { _controller: EfcBackOfficeBundle:Type:addType }
+    condition: "request.isXmlHttpRequest()"
+
+efc_back_office_type_remove:
+    path: /type_article/remove
+    defaults: { _controller: EfcBackOfficeBundle:Type:removeType }
+    condition: "request.isXmlHttpRequest()"

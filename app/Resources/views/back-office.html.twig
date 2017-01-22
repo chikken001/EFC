@@ -10,6 +10,7 @@
                 'bundles/BackOffice/css/back-office.css'
                 'bundles/BackOffice/css/libs/bootstrap-theme.min.css'
                 'bundles/BackOffice/css/libs/bootstrap.min.css'
+                'bundles/BackOffice/css/libs/jquery.dataTables.min.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -23,7 +24,7 @@
 
     <body>
 
-    <div class="container">
+    <div class="container" style="min-width:425px;">
         <div class="container-fluid">
 
             {% block header %}{% endblock %}

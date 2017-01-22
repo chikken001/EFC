@@ -1,6 +1,6 @@
 <?php
 
-namespace AveaPatrimoine\MainBundle\DataFixtures\ORM;
+namespace Efc\MainBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -12,7 +12,7 @@ class ArticleFixtures extends AbstractFixture implements FixtureInterface, Order
 {
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 
     public function load(ObjectManager $manager)

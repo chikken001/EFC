@@ -147,7 +147,7 @@ class Article
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\Type", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Efc\MainBundle\Entity\Type", inversedBy="articles", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;

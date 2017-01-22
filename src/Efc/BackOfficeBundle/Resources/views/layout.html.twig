@@ -5,35 +5,33 @@
     <nav class="navbar navbar-default main-nav">
 
         <div class="container-fluid col-xs-12 col-sm-12 col-md-12">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
 
+            <div class="navbar-header">
                 <a class="navbar-brand" href="{{ path('efc_back_office_homepage') }}">
-                    <img src="" alt="Avea Patrimoine"/>
+                    <img src="" alt="EFC"/>
                 </a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse col-xs-8 col-sm-8 col-md-8" id="bs-example-navbar-collapse-1">
+            <div class="col-xs-8 col-sm-8 col-md-8">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ path('efc_back_office_homepage') }}">Centres</a>
+                    <li class="dropdown">
+                        <a href="{{ path('efc_back_office_homepage') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Article<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('efc_back_office_homepage') }}">Liste</a></li>
+                            <li><a href="{{ path('efc_back_office_type_liste') }}">Types</a></li>
+                        </ul>
                     </li>
+                    <li><a href="">Informations générales</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-            <div class="col-xs-2 col-sm-2 col-md-2" style="float:right; text-align:right;padding:10px;">
+            </div>
+
+            <div class="col-xs-4 col-sm-2 col-md-2" style="float:right; text-align:right;padding:10px;">
                 <a href="{{ path('efc_back_office_security_logout') }}" style="">
                     <button class="btn btn-danger btn-sm">Déconnexion</button>
                 </a>
             </div>
 
-        </div><!-- /.container-fluid -->
+        </div>
 
     </nav>
 

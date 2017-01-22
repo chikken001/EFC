@@ -34,6 +34,13 @@ class Type
      */
     private $nom;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Efc\MainBundle\Entity\Article", mappedBy="type", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @var
+     */
+    protected $articles;
+
 
     /**
      * Get id
@@ -63,6 +70,45 @@ class Type
         $this->nom = $nom;
 
         return $this;
+    }
+
+    /**
+     * @param Article $article
+     */
+    public function removeArticle(Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * @param Article $article
+     */
+    public function addArticle(Article $article)
+    {
+        $article->setType($this);
+
+        $this->articles->add($article);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * @param ArrayCollection $articles
+     */
+    public function setArticles(\Doctrine\Common\Collections\ArrayCollection $articles)
+    {
+        $this->articles = $articles;
+
+        foreach ($articles as $article)
+        {
+            $article->setType($this);
+        }
     }
 }
 
