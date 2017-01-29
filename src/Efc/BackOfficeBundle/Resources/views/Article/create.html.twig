@@ -7,19 +7,69 @@
     <div class="entity-edit">
         <ol class="breadcrumb">
             <li>
-                <a href="{{ path('efc_back_office_homepage') }}">Accueil</a>
+                <a href="{{ path('efc_back_office_homepage') }}">Article</a>
             </li>
             <li>
-                <a href="{{ path('efc_back_office_article_index') }}">Articles</a>
+                <a href="{{ path('efc_back_office_article_create') }}">Créer</a>
             </li>
         </ol>
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
 
+                {% form_theme form 'bootstrap_3_layout.html.twig' %}
+                {{ form_start(form) }}
+
+                    {{ form_row(form.titre) }}
+
+                    {{ form_row(form.type) }}
+
+                    {{ form_row(form.anotation) }}
+
+                    {{ form_label(form.date_evenement) }}
+                    {{ form_errors(form.date_evenement) }}
+                    {{ form_widget(form.date_evenement) }}
+
+                    {{ form_row(form.fichier_photo_principale) }}
+
+                    {{ form_row(form.introduction) }}
+
+                    {{ form_row(form.paragraphe1) }}
+
+                    {{ form_row(form.paragraphe2) }}
+
+                    {{ form_row(form.fichier_photo) }}
+
+                    {{ form_row(form.paragraphe3) }}
+
+                    {{ form_row(form.paragraphe4) }}
+
+                    {{ form_row(form.auteur) }}
+
+                    {{ form_row(form.isPublished) }}
+
+                {{ form_end(form) }}
+
             </div>
         </div>
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+        $(function()
+        {
+            $('.datetimepicker').datetimepicker({
+                format:'d-m-Y H:i',
+                inline:false,
+                lang:'fr'
+            });
+        });
+    </script>
 
 {% endblock %}

@@ -7,7 +7,7 @@
             <a href="{{ path('efc_back_office_homepage') }}">Article</a>
         </li>
         <li>
-            <a href="{{ path('efc_back_office_homepage') }}">Liste des articles</a>
+            <a href="{{ path('efc_back_office_homepage') }}">Liste</a>
         </li>
     </ol>
 
@@ -17,31 +17,31 @@
                 <!-- Default panel contents -->
                 <div class="panel-heading">
                     <span class="create-button visible-xs-block visible-sm-inline visible-md-inline visible-lg-inline">
-                        <a href="{{ path('efc_back_office_article_create') }}" class="btn btn-primary btn-xs pull-right">
+                        <a href="{{ path('efc_back_office_article_create') }}" class="btn btn-primary btn-xs pull-left">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
                     </span>
-                    Créer un Article
+                    <span style="margin-left:5px;">Créer un Article</span>
                 </div>
 
                 <!-- table page - BEGIN -->
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Auteur</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>Titre</th>
+                                <th>Auteur</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
                         {% for article in articles %}
                             <tr>
-                                <td>{{ article.nom }}</td>
-                                <td></td>
-                                <td></td>
-                                <td style="width: 3%;">
+                                <td>{{ article.titre }}</td>
+                                <td>{{ article.auteur }}</td>
+                                <td>{{ article.dateEvenement|date("d/m/Y H:i:s") }}</td>
+                                <td>
                                     <a href="{{ path('efc_back_office_article_view', {'id': article.id}) }}" class="btn btn-primary btn-xs btn-success" title="Afficher" role="button">
                                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                     </a>

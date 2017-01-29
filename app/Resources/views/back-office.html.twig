@@ -11,6 +11,7 @@
                 'bundles/BackOffice/css/libs/bootstrap-theme.min.css'
                 'bundles/BackOffice/css/libs/bootstrap.min.css'
                 'bundles/BackOffice/css/libs/jquery.dataTables.min.css'
+                'bundles/BackOffice/css/libs/jquery.datetimepicker.min.css'
             %}
 
             <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
@@ -65,10 +66,11 @@
         {% block javascripts %}
 
             {% javascripts filter='?yui_js'
-                'bundles/Cms/js/libs/jquery2.0.3.min.js'
+                'bundles/Cms/js/libs/jquery-1.12.4.min.js'
                 'bundles/BackOffice/js/back-office.js'
                 'bundles/BackOffice/js/libs/bootstrap.min.js'
                 'bundles/BackOffice/js/libs/jquery.dataTables.min.js'
+                'bundles/BackOffice/js/libs/jquery.datetimepicker.full.min.js'
             %}
 
             <script src="{{ asset_url }}"></script>

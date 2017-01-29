@@ -5,6 +5,7 @@ namespace Efc\BackOfficeBundle\Controller;
 use Efc\MainBundle\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Efc\BackOfficeBundle\Form\ArticleType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ArticleController extends Controller
@@ -42,13 +43,31 @@ class ArticleController extends Controller
     public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser() ;
 
         $article = new Article();
 
-        // send view
-        return $this->render('EfcBackOfficeBundle:Article:create.html.twig', array(
+        $form = $this->createForm(new ArticleType($em), $article, array(
+            'method' => 'POST',
+            'action' => $this->generateUrl('efc_back_office_article_create')
+        ));
 
+        if ($request->getMethod() == 'POST')
+        {
+            $form->handleRequest($request);
+
+            if ($form->isValid())
+            {
+                $em->persist($article);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('notice', 'Article enregistré');
+
+                return $this->redirect($this->generateUrl('efc_back_office_article_index'));
+            }
+        }
+
+        return $this->render('EfcBackOfficeBundle:Article:create.html.twig', array(
+            'form' => $form->createView()
         ));
     }
 

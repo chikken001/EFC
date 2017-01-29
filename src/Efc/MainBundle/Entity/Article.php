@@ -293,7 +293,7 @@ class Article
      *
      * @return Article
      */
-    public function setAuteur(User $auteur)
+    public function setAuteur($auteur)
     {
         $this->auteur = $auteur;
 
@@ -481,6 +481,46 @@ class Article
     }
 
     /**
+     * @return \Datetime
+     */
+    public function getDateCreation()
+    {
+        return $this->date_creation;
+    }
+
+    /**
+     * @param \Datetime $date_creation
+     *
+     * @return Article
+     */
+    public function setDateCreation($date_creation)
+    {
+        $this->date_creation = $date_creation;
+
+        return $this;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getDateEvenement()
+    {
+        return $this->date_evenement;
+    }
+
+    /**
+     * @param \Datetime $date_evenement
+     *
+     * @return Article
+     */
+    public function setDateEvenement($date_evenement)
+    {
+        $this->date_evenement = $date_evenement;
+
+        return $this;
+    }
+
+    /**
      * @param Document $document
      */
     public function removeDocument(Document $document)
@@ -493,7 +533,7 @@ class Article
      */
     public function addDocument(Document $document)
     {
-        $document->setCentre($this);
+        $document->setArticle($this);
 
         $this->documents->add($document);
     }
@@ -784,9 +824,9 @@ class Article
     /**
      * @ORM\PostRemove()
      */
-    public function removeUploads()
+    public function removeUploads($dirPath)
     {
-        $dirPath = $this->getUploadRootDir() ;
+        if(empty($dirPath)) $dirPath = $this->getUploadRootDir() ;
 
         if (is_dir($dirPath))
         {
@@ -800,7 +840,7 @@ class Article
             {
                 if (is_dir($file))
                 {
-                    self::deleteDir($file);
+                    self::removeUploads($file);
                 }
                 else
                 {
